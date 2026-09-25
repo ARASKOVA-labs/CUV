@@ -1,0 +1,49 @@
+name: 📦 C++ Library Request
+description: Request or propose adding a C/C++ library to the CUV registry
+title: "[Package Request]: "
+labels: ["package-request", "good-first-issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping grow the CUV package ecosystem!
+        You can also submit a PR directly by adding to `src/package/registry.rs`.
+  - type: input
+    id: package_name
+    attributes:
+      label: Library Name
+      description: The alias name used in `cuv add <name>` (e.g. `raylib`, `entt`, `boost`).
+      placeholder: e.g. raylib
+    validations:
+      required: true
+  - type: input
+    id: repository_url
+    attributes:
+      label: GitHub Repository
+      description: URL or `owner/repo` of the upstream project.
+      placeholder: e.g. raysan5/raylib
+    validations:
+      required: true
+  - type: dropdown
+    id: package_type
+    attributes:
+      label: Library Architecture
+      description: Is this library header-only or does it require source compilation?
+      options:
+        - "Header-only (Zero compilation required)"
+        - "Compiled Sources (Contains .cpp/.c files)"
+    validations:
+      required: true
+  - type: input
+    id: include_path
+    attributes:
+      label: Header Directory Subpath
+      description: Where headers live inside the repository (e.g. `include`, `src`, or empty if root).
+      placeholder: e.g. include
+    validations:
+      required: false
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Why is this library valuable for CUV users? Any required compile flags or dependencies?
