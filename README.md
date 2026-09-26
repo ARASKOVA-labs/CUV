@@ -44,27 +44,39 @@ In 2026, systems programming still suffers from severe tooling fragmentation:
 
 ## 🚀 Installation
 
-### Option 1: Via Cargo (Recommended)
+### Option 1: Standalone Installer (Fastest & Recommended)
+Install CUV directly with a single shell command without needing any external dependencies:
+
+**macOS & Linux:**
 ```bash
+curl -LsSf https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.sh | sh
+```
+
+**Windows (PowerShell):**
+```powershell
+powershell -c "irm https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.ps1 | iex"
+```
+
+### Option 2: Homebrew (macOS & Linux)
+```bash
+brew install araskova/tap/cuv
+```
+
+### Option 3: Via Cargo & Crates.io
+```bash
+# Instant pre-compiled binary via cargo-binstall
+cargo binstall cuv
+
+# Or compile from source
 cargo install --git https://github.com/araskova/cuv.git
 ```
-Or from a local clone:
-```bash
-cargo install --path .
-```
 
-### Option 2: Pre-compiled Binaries
-Download the latest pre-compiled static binary for your architecture from [GitHub Releases](https://github.com/araskova/cuv/releases):
-- `aarch64-apple-darwin` (Apple Silicon Mac)
-- `x86_64-apple-darwin` (Intel Mac)
-- `x86_64-unknown-linux-gnu` (Linux x64)
-- `aarch64-unknown-linux-gnu` (Linux ARM64)
-- `x86_64-pc-windows-msvc` (Windows x64)
-
-Verify installation:
+Verify your installation:
 ```bash
 cuv info
 ```
+
+*(For enterprise CI/CD integration and deployment instructions, see [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) and [PITCH_DECK.md](PITCH_DECK.md).)*
 
 ---
 
@@ -136,6 +148,18 @@ cuv test
 cuv build --release
 ```
 Compiles with multi-core parallelism, `-O3`, `-DNDEBUG`, and full optimization into `target/release/`.
+
+### 6. Inspect & manage global ABI cache
+```bash
+cuv cache info
+cuv cache clean
+```
+
+### 7. Team remote cache (CUV Cloud)
+```bash
+cuv login
+cuv cloud status
+```
 
 ---
 
