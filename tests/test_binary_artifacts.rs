@@ -37,8 +37,8 @@ fn test_precompiled_binary_auto_linking() {
         .expect("cuv init");
     assert!(status.success());
 
-    // 2. Build a real static library archive (.a) to simulate a pre-compiled binary artifact
-    let lib_build_dir = create_temp_dir("build_mock_lib");
+    // 2. Build a real static library archive (.a) to test pre-compiled binary artifact linking
+    let lib_build_dir = create_temp_dir("build_test_lib");
     let util_c = lib_build_dir.join("testutil.c");
     let util_o = lib_build_dir.join("testutil.o");
     let util_a = lib_build_dir.join("libtestutil.a");
@@ -60,7 +60,7 @@ int get_secret_number(void) {
         .arg("-o")
         .arg(&util_o)
         .status()
-        .expect("compile mock lib object");
+        .expect("compile test lib object");
     assert!(cc_status.success());
 
     let ar_status = Command::new("ar")
@@ -68,7 +68,7 @@ int get_secret_number(void) {
         .arg(&util_a)
         .arg(&util_o)
         .status()
-        .expect("ar mock lib");
+        .expect("ar test lib");
     assert!(ar_status.success());
 
     // 3. Mount into .cuv/lib/ and .cuv/include/
