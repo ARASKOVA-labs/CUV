@@ -55,7 +55,7 @@ pub async fn resolve_and_fetch_package(
         );
     };
 
-    let safe_pkg_name = package.replace('/', "_").replace(':', "_");
+    let safe_pkg_name = package.replace(['/', ':'], "_");
     let target_cache_dir = cache_root.join("packages").join(&safe_pkg_name).join(&tag);
 
     if !target_cache_dir.exists() {
@@ -82,10 +82,9 @@ pub async fn resolve_and_fetch_package(
                             if resp.status().is_success() {
                                 if let Ok(bytes) = resp.bytes().await {
                                     // Verify SHA256 checksum
-                                    if !artifact.sha256.is_empty() && verify_sha256(&bytes, artifact.sha256) {
-                                        downloaded_bytes = Some(bytes);
-                                        break;
-                                    } else if artifact.sha256.is_empty() {
+                                    if artifact.sha256.is_empty()
+                                        || verify_sha256(&bytes, artifact.sha256)
+                                    {
                                         downloaded_bytes = Some(bytes);
                                         break;
                                     }
@@ -100,15 +99,33 @@ pub async fn resolve_and_fetch_package(
         // 2. Fallback to repository release / tag tarball
         if downloaded_bytes.is_none() {
             let mut urls_to_try = Vec::new();
-            urls_to_try.push(format!("https://github.com/{}/archive/refs/tags/{}.tar.gz", repo, tag));
+            urls_to_try.push(format!(
+                "https://github.com/{}/archive/refs/tags/{}.tar.gz",
+                repo, tag
+            ));
             if !tag.starts_with('v') {
-                urls_to_try.push(format!("https://github.com/{}/archive/refs/tags/v{}.tar.gz", repo, tag));
+                urls_to_try.push(format!(
+                    "https://github.com/{}/archive/refs/tags/v{}.tar.gz",
+                    repo, tag
+                ));
             } else if let Some(stripped) = tag.strip_prefix('v') {
-                urls_to_try.push(format!("https://github.com/{}/archive/refs/tags/{}.tar.gz", repo, stripped));
+                urls_to_try.push(format!(
+                    "https://github.com/{}/archive/refs/tags/{}.tar.gz",
+                    repo, stripped
+                ));
             }
-            urls_to_try.push(format!("https://github.com/{}/archive/refs/heads/{}.tar.gz", repo, tag));
-            urls_to_try.push(format!("https://github.com/{}/archive/refs/heads/main.tar.gz", repo));
-            urls_to_try.push(format!("https://github.com/{}/archive/refs/heads/master.tar.gz", repo));
+            urls_to_try.push(format!(
+                "https://github.com/{}/archive/refs/heads/{}.tar.gz",
+                repo, tag
+            ));
+            urls_to_try.push(format!(
+                "https://github.com/{}/archive/refs/heads/main.tar.gz",
+                repo
+            ));
+            urls_to_try.push(format!(
+                "https://github.com/{}/archive/refs/heads/master.tar.gz",
+                repo
+            ));
 
             for url in &urls_to_try {
                 if let Ok(resp) = client.get(url).send().await {
@@ -126,14 +143,19 @@ pub async fn resolve_and_fetch_package(
             Some(b) => b,
             None => {
                 spinner.finish_and_clear();
-                bail!("Failed to download archive for '{}' from GitHub (tried tags & branches)", package);
+                bail!(
+                    "Failed to download archive for '{}' from GitHub (tried tags & branches)",
+                    package
+                );
             }
         };
 
         // Extract tar.gz into target_cache_dir
         let tar = GzDecoder::new(&bytes[..]);
         let mut archive = Archive::new(tar);
-        archive.unpack(&target_cache_dir).context("Failed to unpack package tarball")?;
+        archive
+            .unpack(&target_cache_dir)
+            .context("Failed to unpack package tarball")?;
         spinner.finish_and_clear();
     }
 
@@ -225,7 +247,11 @@ pub async fn ensure_dependencies(
     for (pkg_name, dep) in &manifest.dependencies {
         let req_version = match dep {
             crate::core::manifest::Dependency::Version(v) => {
-                if v == "*" { None } else { Some(v.as_str()) }
+                if v == "*" {
+                    None
+                } else {
+                    Some(v.as_str())
+                }
             }
             crate::core::manifest::Dependency::Detailed { version, tag, .. } => {
                 tag.as_deref().or(version.as_deref())
@@ -244,14 +270,20 @@ pub async fn ensure_dependencies(
 
         if !already_installed || !cuv_include.exists() {
             resolve_and_fetch_package(pkg_name, req_version, cache_root, project_dir).await?;
-            installed_map.insert(pkg_name.clone(), req_version.unwrap_or("default").to_string());
+            installed_map.insert(
+                pkg_name.clone(),
+                req_version.unwrap_or("default").to_string(),
+            );
             updated = true;
         }
     }
 
     if updated {
         let _ = std::fs::create_dir_all(project_dir.join(".cuv"));
-        let _ = std::fs::write(&installed_file, serde_json::to_string_pretty(&installed_map)?);
+        let _ = std::fs::write(
+            &installed_file,
+            serde_json::to_string_pretty(&installed_map)?,
+        );
     }
 
     Ok(())

@@ -107,13 +107,20 @@ impl CacheManager {
                 if let Ok(canon) = h_path.canonicalize() {
                     if visited.insert(canon.clone()) {
                         headers.push(canon.clone());
-                        Self::scan_headers_recursive(&canon, search_paths, visited, headers, depth + 1);
+                        Self::scan_headers_recursive(
+                            &canon,
+                            search_paths,
+                            visited,
+                            headers,
+                            depth + 1,
+                        );
                     }
                 }
             }
         }
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn compute_object_hash(
         src_path: &Path,
         search_paths: &[PathBuf],
@@ -172,19 +179,13 @@ impl CacheManager {
         None
     }
 
-    pub fn store_object(
-        &self,
-        hash: &str,
-        obj_path: &Path,
-    ) -> Result<PathBuf> {
+    pub fn store_object(&self, hash: &str, obj_path: &Path) -> Result<PathBuf> {
         let obj_dir = self.obj_cache_dir();
         std::fs::create_dir_all(&obj_dir)?;
 
         let target_obj = obj_dir.join(format!("{}.o", hash));
-        if !target_obj.exists() {
-            if std::fs::hard_link(obj_path, &target_obj).is_err() {
-                let _ = std::fs::copy(obj_path, &target_obj);
-            }
+        if !target_obj.exists() && std::fs::hard_link(obj_path, &target_obj).is_err() {
+            let _ = std::fs::copy(obj_path, &target_obj);
         }
 
         Ok(target_obj)
@@ -238,32 +239,26 @@ impl CacheManager {
 
         let obj_dir = self.obj_cache_dir();
         if obj_dir.is_dir() {
-            for entry in std::fs::read_dir(&obj_dir)? {
-                if let Ok(entry) = entry {
-                    let path = entry.path();
-                    if path.is_file() && path.extension().and_then(|s| s.to_str()) == Some("o") {
-                        stats.object_count += 1;
-                        if let Ok(meta) = entry.metadata() {
-                            stats.object_bytes += meta.len();
-                        }
+            for entry in std::fs::read_dir(&obj_dir)?.flatten() {
+                let path = entry.path();
+                if path.is_file() && path.extension().and_then(|s| s.to_str()) == Some("o") {
+                    stats.object_count += 1;
+                    if let Ok(meta) = entry.metadata() {
+                        stats.object_bytes += meta.len();
                     }
                 }
             }
         }
 
         if self.root.is_dir() {
-            for entry in std::fs::read_dir(&self.root)? {
-                if let Ok(entry) = entry {
-                    let name = entry.file_name();
-                    if name != "obj" && entry.path().is_dir() {
-                        stats.package_count += 1;
-                        for pkg_entry in walkdir::WalkDir::new(entry.path()) {
-                            if let Ok(pe) = pkg_entry {
-                                if pe.file_type().is_file() {
-                                    if let Ok(meta) = pe.metadata() {
-                                        stats.package_bytes += meta.len();
-                                    }
-                                }
+            for entry in std::fs::read_dir(&self.root)?.flatten() {
+                let name = entry.file_name();
+                if name != "obj" && entry.path().is_dir() {
+                    stats.package_count += 1;
+                    for pe in walkdir::WalkDir::new(entry.path()).into_iter().flatten() {
+                        if pe.file_type().is_file() {
+                            if let Ok(meta) = pe.metadata() {
+                                stats.package_bytes += meta.len();
                             }
                         }
                     }
@@ -280,39 +275,33 @@ impl CacheManager {
 
         let obj_dir = self.obj_cache_dir();
         if obj_dir.is_dir() {
-            for entry in std::fs::read_dir(&obj_dir)? {
-                if let Ok(entry) = entry {
-                    let path = entry.path();
-                    if path.is_file() {
-                        if let Ok(meta) = entry.metadata() {
-                            stats.freed_bytes += meta.len();
-                        }
-                        if path.extension().and_then(|s| s.to_str()) == Some("o") {
-                            stats.evicted_objects += 1;
-                        }
-                        let _ = std::fs::remove_file(&path);
+            for entry in std::fs::read_dir(&obj_dir)?.flatten() {
+                let path = entry.path();
+                if path.is_file() {
+                    if let Ok(meta) = entry.metadata() {
+                        stats.freed_bytes += meta.len();
                     }
+                    if path.extension().and_then(|s| s.to_str()) == Some("o") {
+                        stats.evicted_objects += 1;
+                    }
+                    let _ = std::fs::remove_file(&path);
                 }
             }
         }
 
         if !obj_only && self.root.is_dir() {
-            for entry in std::fs::read_dir(&self.root)? {
-                if let Ok(entry) = entry {
-                    let name = entry.file_name();
-                    if name != "obj" && entry.path().is_dir() {
-                        stats.evicted_packages += 1;
-                        for pe in walkdir::WalkDir::new(entry.path()) {
-                            if let Ok(pe) = pe {
-                                if pe.file_type().is_file() {
-                                    if let Ok(meta) = pe.metadata() {
-                                        stats.freed_bytes += meta.len();
-                                    }
-                                }
+            for entry in std::fs::read_dir(&self.root)?.flatten() {
+                let name = entry.file_name();
+                if name != "obj" && entry.path().is_dir() {
+                    stats.evicted_packages += 1;
+                    for pe in walkdir::WalkDir::new(entry.path()).into_iter().flatten() {
+                        if pe.file_type().is_file() {
+                            if let Ok(meta) = pe.metadata() {
+                                stats.freed_bytes += meta.len();
                             }
                         }
-                        let _ = std::fs::remove_dir_all(entry.path());
                     }
+                    let _ = std::fs::remove_dir_all(entry.path());
                 }
             }
         }

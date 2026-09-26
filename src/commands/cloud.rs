@@ -42,7 +42,10 @@ pub fn handle_logout() -> Result<()> {
 
 pub fn handle_whoami() -> Result<()> {
     let cfg = load_auth_config()?;
-    println!("\n{} Cloud Authentication Status", crate::ui::theme::logo_badge());
+    println!(
+        "\n{} Cloud Authentication Status",
+        crate::ui::theme::logo_badge()
+    );
     println!("{}", crate::ui::theme::divider_line(52));
 
     if let Some(ref tok) = cfg.token {
@@ -52,11 +55,17 @@ pub fn handle_whoami() -> Result<()> {
             "********".to_string()
         };
         println!("  • Status:       {}", "Authenticated".green().bold());
-        println!("  • Organization: {}", cfg.org.as_deref().unwrap_or("Personal").cyan());
+        println!(
+            "  • Organization: {}",
+            cfg.org.as_deref().unwrap_or("Personal").cyan()
+        );
         println!("  • Token:        {}", masked.dimmed());
         println!("  • Endpoint:     {}", cfg.endpoint.dimmed());
     } else {
-        println!("  • Status:       {}", "Not logged in (Local cache only)".yellow());
+        println!(
+            "  • Status:       {}",
+            "Not logged in (Local cache only)".yellow()
+        );
         println!("  • Hint:         Run `cuv login --token <TOKEN>` to connect team cache.");
     }
     println!("{}\n", crate::ui::theme::divider_line(52));
@@ -68,7 +77,10 @@ pub async fn handle_cloud_status() -> Result<()> {
     let client = CloudClient::new()?;
     let status = client.check_status().await?;
 
-    println!("\n{} Cloud Remote Cache Status", crate::ui::theme::logo_badge());
+    println!(
+        "\n{} Cloud Remote Cache Status",
+        crate::ui::theme::logo_badge()
+    );
     println!("{}", crate::ui::theme::divider_line(52));
     println!("  • Endpoint:       {}", status.endpoint.cyan());
     println!(

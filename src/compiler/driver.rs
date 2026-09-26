@@ -43,13 +43,15 @@ impl CompilerDriver {
         let src_dir = self.project_dir.join("src");
         let mut sources = Vec::new();
         if src_dir.is_dir() {
-            for entry in walkdir::WalkDir::new(&src_dir) {
-                if let Ok(entry) = entry {
-                    if entry.file_type().is_file() {
-                        let ext = entry.path().extension().and_then(|s| s.to_str()).unwrap_or("");
-                        if ["cpp", "cc", "cxx", "c"].contains(&ext) {
-                            sources.push(entry.into_path());
-                        }
+            for entry in walkdir::WalkDir::new(&src_dir).into_iter().flatten() {
+                if entry.file_type().is_file() {
+                    let ext = entry
+                        .path()
+                        .extension()
+                        .and_then(|s| s.to_str())
+                        .unwrap_or("");
+                    if ["cpp", "cc", "cxx", "c"].contains(&ext) {
+                        sources.push(entry.into_path());
                     }
                 }
             }
@@ -59,9 +61,7 @@ impl CompilerDriver {
     }
 
     pub fn get_object_and_dep_path(&self, src: &Path, mode: &str) -> (PathBuf, PathBuf) {
-        let rel = src
-            .strip_prefix(&self.project_dir)
-            .unwrap_or(src);
+        let rel = src.strip_prefix(&self.project_dir).unwrap_or(src);
         let obj_dir = self.project_dir.join("target").join(mode).join("obj");
         let obj_path = obj_dir.join(rel).with_extension("o");
         let dep_path = obj_dir.join(rel).with_extension("d");
@@ -143,7 +143,10 @@ impl CompilerDriver {
         let mode = if options.release { "release" } else { "debug" };
         let sources = self.discover_sources();
         if sources.is_empty() {
-            bail!("No C/C++ source files found in {}", self.project_dir.join("src").display());
+            bail!(
+                "No C/C++ source files found in {}",
+                self.project_dir.join("src").display()
+            );
         }
 
         self.generate_compile_commands(&sources, mode)?;
@@ -158,7 +161,10 @@ impl CompilerDriver {
         ];
 
         let target_cfg = if cfg!(target_os = "macos") {
-            self.manifest.target.get("macos").or_else(|| self.manifest.target.get("darwin"))
+            self.manifest
+                .target
+                .get("macos")
+                .or_else(|| self.manifest.target.get("darwin"))
         } else if cfg!(target_os = "linux") {
             self.manifest.target.get("linux")
         } else if cfg!(target_os = "windows") {
@@ -206,7 +212,11 @@ impl CompilerDriver {
                 let global_cached = global_cached_count.clone();
                 let pb = progress_bar.clone();
                 let compiler = self.toolchain.compiler_for_file(&src).clone();
-                let ext = src.extension().and_then(|s| s.to_str()).unwrap_or("").to_string();
+                let ext = src
+                    .extension()
+                    .and_then(|s| s.to_str())
+                    .unwrap_or("")
+                    .to_string();
                 let standard = self.manifest.project.standard.clone();
                 let is_release = options.release;
                 let inc_dir = include_dir.clone();
@@ -236,13 +246,21 @@ impl CompilerDriver {
                         opt_level,
                         &flags,
                         &defines,
-                    ).ok();
+                    )
+                    .ok();
 
                     if let Some(ref hash) = obj_hash {
-                        if cache.restore_cached_object(hash, &obj_path, &dep_path, &src, &search_paths).unwrap_or(false) {
+                        if cache
+                            .restore_cached_object(hash, &obj_path, &dep_path, &src, &search_paths)
+                            .unwrap_or(false)
+                        {
                             global_cached.fetch_add(1, Ordering::SeqCst);
                             let display_path = src.strip_prefix(&proj_dir).unwrap_or(&src);
-                            pb.set_message(format!("{} {}", display_path.display().to_string().cyan(), "[⚡cache hit]".green()));
+                            pb.set_message(format!(
+                                "{} {}",
+                                display_path.display().to_string().cyan(),
+                                "[⚡cache hit]".green()
+                            ));
                             pb.inc(1);
                             return Ok(());
                         }
@@ -359,7 +377,10 @@ impl CompilerDriver {
             || any_object_newer(&compile_res.objects, &output_path);
 
         let target_cfg = if cfg!(target_os = "macos") {
-            self.manifest.target.get("macos").or_else(|| self.manifest.target.get("darwin"))
+            self.manifest
+                .target
+                .get("macos")
+                .or_else(|| self.manifest.target.get("darwin"))
         } else if cfg!(target_os = "linux") {
             self.manifest.target.get("linux")
         } else if cfg!(target_os = "windows") {
@@ -371,13 +392,36 @@ impl CompilerDriver {
         if need_link {
             match self.manifest.project.kind.as_str() {
                 "static-lib" => {
-                    link_static_lib(&self.toolchain, &compile_res.objects, &output_path, options.verbose).await?;
+                    link_static_lib(
+                        &self.toolchain,
+                        &compile_res.objects,
+                        &output_path,
+                        options.verbose,
+                    )
+                    .await?;
                 }
                 "shared-lib" => {
-                    link_shared_lib(&self.toolchain, target_cfg, &self.project_dir, &compile_res.objects, &output_path, options.verbose).await?;
+                    link_shared_lib(
+                        &self.toolchain,
+                        target_cfg,
+                        &self.project_dir,
+                        &compile_res.objects,
+                        &output_path,
+                        options.verbose,
+                    )
+                    .await?;
                 }
                 _ => {
-                    link_executable(&self.toolchain, target_cfg, &self.project_dir, &compile_res.objects, &output_path, options.release, options.verbose).await?;
+                    link_executable(
+                        &self.toolchain,
+                        target_cfg,
+                        &self.project_dir,
+                        &compile_res.objects,
+                        &output_path,
+                        options.release,
+                        options.verbose,
+                    )
+                    .await?;
                 }
             }
 

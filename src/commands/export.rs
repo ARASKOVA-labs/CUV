@@ -17,7 +17,10 @@ pub fn handle_export(format: &str) -> Result<()> {
         export_cmake_lists(&mf, &out_path)?;
         println!("{} Exported `{}`", "✔".green().bold(), out_path.display());
     } else {
-        bail!("Unsupported export format: '{}'. Supported: cmake, provider", format);
+        bail!(
+            "Unsupported export format: '{}'. Supported: cmake, provider",
+            format
+        );
     }
     Ok(())
 }

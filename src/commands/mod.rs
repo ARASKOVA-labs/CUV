@@ -100,6 +100,10 @@ pub enum Commands {
     },
     /// Display detected C++ toolchain and environment info
     Info,
+    /// Play interactive live visual demo of CUV animations and velocity
+    Demo,
+    /// Display the CUV stylized ASCII banner
+    Banner,
 }
 
 pub async fn dispatch(command: Commands) -> Result<()> {
@@ -108,7 +112,11 @@ pub async fn dispatch(command: Commands) -> Result<()> {
         Commands::Add { package, version } => add::handle_add(&package, version).await,
         Commands::Sync => sync::handle_sync().await,
         Commands::Build { release, verbose } => build::handle_build(release, verbose).await,
-        Commands::Run { release, verbose, args } => run::handle_run(release, verbose, args).await,
+        Commands::Run {
+            release,
+            verbose,
+            args,
+        } => run::handle_run(release, verbose, args).await,
         Commands::Test => test::handle_test().await,
         Commands::Export { format } => export::handle_export(&format),
         Commands::Clean => clean::handle_clean(),
@@ -118,5 +126,10 @@ pub async fn dispatch(command: Commands) -> Result<()> {
         Commands::Whoami => cloud::handle_whoami(),
         Commands::Cloud { action: _ } => cloud::handle_cloud_status().await,
         Commands::Info => info::handle_info(),
+        Commands::Demo => crate::ui::demo::run_demo().await,
+        Commands::Banner => {
+            crate::ui::banner::print_static_banner();
+            Ok(())
+        }
     }
 }

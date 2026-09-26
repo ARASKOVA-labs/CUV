@@ -58,7 +58,11 @@ fn test_global_cache_hit_after_clean() {
         .filter_map(|e| e.ok())
         .filter(|e| e.path().extension().and_then(|s| s.to_str()) == Some("o"))
         .collect();
-    assert!(!cached_files.is_empty(), "Expected cached .o files in {:?}", obj_cache);
+    assert!(
+        !cached_files.is_empty(),
+        "Expected cached .o files in {:?}",
+        obj_cache
+    );
 
     // 3. Run cuv clean (wipes target/ completely)
     let clean_status = Command::new(&cuv)

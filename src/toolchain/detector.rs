@@ -93,7 +93,11 @@ impl Toolchain {
                     target_triple = target.trim().to_string();
                 }
             }
-            if (line.contains("clang version") || line.contains("gcc version") || line.contains("Apple clang")) && version == "unknown" {
+            if (line.contains("clang version")
+                || line.contains("gcc version")
+                || line.contains("Apple clang"))
+                && version == "unknown"
+            {
                 version = line.trim().to_string();
             }
         }

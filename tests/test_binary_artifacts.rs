@@ -123,7 +123,11 @@ int main() {
     let run_res = Command::new(&bin_path).output().expect("run binary");
     assert!(run_res.status.success());
     let stdout = String::from_utf8_lossy(&run_res.stdout);
-    assert!(stdout.contains("Secret is: 4242"), "Expected output to contain secret: {}", stdout);
+    assert!(
+        stdout.contains("Secret is: 4242"),
+        "Expected output to contain secret: {}",
+        stdout
+    );
 
     let _ = fs::remove_dir_all(&test_dir);
     let _ = fs::remove_dir_all(&lib_build_dir);
@@ -139,7 +143,12 @@ fn test_registry_binary_packages_metadata() {
     assert!(reg.contains_key("raylib"));
 
     let sqlite = reg.get("sqlite3").unwrap();
-    assert_eq!(sqlite.kind, PackageKind::StaticLibrary { lib_name: "sqlite3" });
+    assert_eq!(
+        sqlite.kind,
+        PackageKind::StaticLibrary {
+            lib_name: "sqlite3"
+        }
+    );
     assert!(!sqlite.artifacts.is_empty());
 
     let triple = normalize_target_triple("arm64-apple-darwin23.0.0");

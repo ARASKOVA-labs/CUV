@@ -38,7 +38,10 @@ pub async fn link_static_lib(
     output_path: &Path,
     verbose: bool,
 ) -> Result<()> {
-    let ar = toolchain.ar_path.clone().unwrap_or_else(|| PathBuf::from("ar"));
+    let ar = toolchain
+        .ar_path
+        .clone()
+        .unwrap_or_else(|| PathBuf::from("ar"));
     let mut cmd = Command::new(&ar);
     cmd.arg("rcs").arg(output_path);
     for obj in objects {
@@ -51,7 +54,10 @@ pub async fn link_static_lib(
 
     let status = cmd.status().await.context("Failed to run archiver")?;
     if !status.success() {
-        bail!("Static library archiving failed with exit status {}", status);
+        bail!(
+            "Static library archiving failed with exit status {}",
+            status
+        );
     }
     Ok(())
 }

@@ -29,7 +29,11 @@ pub async fn handle_add(package: &str, version: Option<String>) -> Result<()> {
         "{} Added `{}` to dependencies in {}",
         "✔".green().bold(),
         package.bold(),
-        manifest_path.file_name().unwrap().to_string_lossy().dimmed()
+        manifest_path
+            .file_name()
+            .unwrap()
+            .to_string_lossy()
+            .dimmed()
     );
 
     Ok(())

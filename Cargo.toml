@@ -7,6 +7,10 @@ authors = ["Araskova <engineering@araskova.com>"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/araskova/cuv"
+homepage = "https://github.com/araskova/cuv"
+documentation = "https://github.com/araskova/cuv#readme"
+keywords = ["cpp", "c", "build-system", "package-manager", "compiler"]
+categories = ["development-tools::build-utils", "command-line-utilities"]
 
 [dependencies]
 clap = { version = "4.5", features = ["derive"] }

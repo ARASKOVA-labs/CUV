@@ -29,6 +29,7 @@ pub fn create_progress_bar(total: u64, prefix: &str) -> ProgressBar {
     pb
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn print_build_summary(
     project_name: &str,
     kind: &str,
@@ -93,9 +94,19 @@ pub fn print_build_summary(
 pub fn print_test_suite_result(name: &str, passed: bool, dur: Duration, details: Option<&str>) {
     let time_str = format!("({})", crate::ui::theme::format_duration(dur));
     if passed {
-        println!("  {} {} {}", "✔".green().bold(), name.bold(), time_str.dimmed());
+        println!(
+            "  {} {} {}",
+            "✔".green().bold(),
+            name.bold(),
+            time_str.dimmed()
+        );
     } else {
-        println!("  {} {} {}", "✖".red().bold(), name.bold(), time_str.dimmed());
+        println!(
+            "  {} {} {}",
+            "✖".red().bold(),
+            name.bold(),
+            time_str.dimmed()
+        );
         if let Some(err) = details {
             for line in err.lines() {
                 println!("    {}", line.dimmed());

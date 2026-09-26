@@ -25,16 +25,21 @@ impl TestRunner {
 
     pub fn discover_test_files(&self) -> Vec<PathBuf> {
         let mut tests = Vec::new();
-        let candidate_dirs = [self.project_dir.join("tests"), self.project_dir.join("test")];
+        let candidate_dirs = [
+            self.project_dir.join("tests"),
+            self.project_dir.join("test"),
+        ];
         for dir in &candidate_dirs {
             if dir.is_dir() {
-                for entry in walkdir::WalkDir::new(dir) {
-                    if let Ok(entry) = entry {
-                        if entry.file_type().is_file() {
-                            let ext = entry.path().extension().and_then(|s| s.to_str()).unwrap_or("");
-                            if ["cpp", "cc", "cxx"].contains(&ext) {
-                                tests.push(entry.into_path());
-                            }
+                for entry in walkdir::WalkDir::new(dir).into_iter().flatten() {
+                    if entry.file_type().is_file() {
+                        let ext = entry
+                            .path()
+                            .extension()
+                            .and_then(|s| s.to_str())
+                            .unwrap_or("");
+                        if ["cpp", "cc", "cxx"].contains(&ext) {
+                            tests.push(entry.into_path());
                         }
                     }
                 }
@@ -47,7 +52,10 @@ impl TestRunner {
     pub async fn run_all(&self) -> Result<()> {
         let test_files = self.discover_test_files();
         if test_files.is_empty() {
-            println!("{} No tests found in `tests/` or `test/`.", "Note:".dimmed());
+            println!(
+                "{} No tests found in `tests/` or `test/`.",
+                "Note:".dimmed()
+            );
             return Ok(());
         }
 
@@ -88,7 +96,7 @@ impl TestRunner {
         for test_src in &test_files {
             let test_start = Instant::now();
             let test_name = test_src.file_stem().unwrap().to_string_lossy();
-            let bin_path = target_test_dir.join(&format!("test_{}", test_name));
+            let bin_path = target_test_dir.join(format!("test_{}", test_name));
 
             let mut cmd = Command::new(&self.toolchain.compiler_path);
             cmd.arg(format!("-std={}", self.manifest.project.standard));
@@ -110,7 +118,10 @@ impl TestRunner {
 
             // Apply platform link flags and .cuv/lib/ auto-linking
             let target_cfg = if cfg!(target_os = "macos") {
-                self.manifest.target.get("macos").or_else(|| self.manifest.target.get("darwin"))
+                self.manifest
+                    .target
+                    .get("macos")
+                    .or_else(|| self.manifest.target.get("darwin"))
             } else if cfg!(target_os = "linux") {
                 self.manifest.target.get("linux")
             } else {

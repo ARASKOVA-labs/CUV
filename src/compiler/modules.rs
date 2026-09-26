@@ -58,17 +58,17 @@ impl ModuleDAG {
                 continue;
             }
 
-            if trimmed.starts_with("export") {
-                let rest = trimmed["export".len()..].trim();
-                if rest.starts_with("module") {
-                    let after_module = rest["module".len()..].trim();
+            if let Some(rest) = trimmed.strip_prefix("export") {
+                let rest = rest.trim();
+                if let Some(after_module) = rest.strip_prefix("module") {
+                    let after_module = after_module.trim();
                     if let Some(semi) = after_module.find(';') {
                         let name = after_module[..semi].trim();
                         module_name = Some(name.to_string());
                         is_interface = true;
                     }
-                } else if rest.starts_with("import") {
-                    let after_import = rest["import".len()..].trim();
+                } else if let Some(after_import) = rest.strip_prefix("import") {
+                    let after_import = after_import.trim();
                     if let Some(semi) = after_import.find(';') {
                         let name = after_import[..semi].trim();
                         if !name.starts_with('<') && !name.starts_with('"') {
@@ -76,8 +76,8 @@ impl ModuleDAG {
                         }
                     }
                 }
-            } else if trimmed.starts_with("module") {
-                let rest = trimmed["module".len()..].trim();
+            } else if let Some(rest) = trimmed.strip_prefix("module") {
+                let rest = rest.trim();
                 if let Some(semi) = rest.find(';') {
                     let name = rest[..semi].trim();
                     if !name.is_empty() {
@@ -85,8 +85,8 @@ impl ModuleDAG {
                         is_implementation = true;
                     }
                 }
-            } else if trimmed.starts_with("import") {
-                let rest = trimmed["import".len()..].trim();
+            } else if let Some(rest) = trimmed.strip_prefix("import") {
+                let rest = rest.trim();
                 if let Some(semi) = rest.find(';') {
                     let name = rest[..semi].trim();
                     if !name.starts_with('<') && !name.starts_with('"') {
@@ -97,7 +97,10 @@ impl ModuleDAG {
         }
 
         if is_module_ext && module_name.is_none() {
-            let stem = file_path.file_stem().and_then(|s| s.to_str()).unwrap_or("module");
+            let stem = file_path
+                .file_stem()
+                .and_then(|s| s.to_str())
+                .unwrap_or("module");
             module_name = Some(stem.to_string());
             is_interface = true;
         }
@@ -125,7 +128,10 @@ impl ModuleDAG {
             for dep in &info.imported_modules {
                 if self.modules.contains_key(dep) {
                     *in_degree.entry(mod_name.clone()).or_insert(0) += 1;
-                    dependents.entry(dep.clone()).or_default().push(mod_name.clone());
+                    dependents
+                        .entry(dep.clone())
+                        .or_default()
+                        .push(mod_name.clone());
                 }
             }
         }

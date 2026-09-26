@@ -24,7 +24,7 @@ pub fn handle_init(name: &str, standard: &str, is_lib: bool) -> Result<()> {
     let kind = if is_lib { "static-lib" } else { "executable" };
 
     let manifest_content = format!(
-r#"[project]
+        r#"[project]
 name = "{proj_name}"
 version = "0.1.0"
 standard = "{standard}"
@@ -36,7 +36,8 @@ kind = "{kind}"
 
 [target.macos]
 # frameworks = ["CoreGraphics"]
-"#);
+"#
+    );
 
     std::fs::write(&manifest_file, manifest_content)?;
 
@@ -66,7 +67,7 @@ extern "C" void hello_cuv() {
         let test_file = tests_dir.join("test_lib.cpp");
         if !test_file.exists() {
             let sample_test = format!(
-r#"#include <cassert>
+                r#"#include <cassert>
 #include <iostream>
 #include "{proj_name}.h"
 
@@ -75,7 +76,8 @@ int main() {{
     std::cout << "All library unit tests passed!" << std::endl;
     return 0;
 }}
-"#);
+"#
+            );
             std::fs::write(&test_file, sample_test)?;
         }
     } else {
@@ -115,7 +117,10 @@ int main() {
 
     let gitignore = target_dir.join(".gitignore");
     if !gitignore.exists() {
-        std::fs::write(&gitignore, "target/\n.cuv/\ncompile_commands.json\n.DS_Store\n")?;
+        std::fs::write(
+            &gitignore,
+            "target/\n.cuv/\ncompile_commands.json\n.DS_Store\n",
+        )?;
     }
 
     println!(

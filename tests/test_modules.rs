@@ -106,7 +106,10 @@ import a;
     let result = dag.topological_stages();
 
     assert!(result.is_err(), "Expected cyclic module dependency error");
-    assert!(result.unwrap_err().to_string().contains("Cyclic dependency"));
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("Cyclic dependency"));
 
     let _ = fs::remove_dir_all(&temp_dir);
 }
@@ -119,9 +122,16 @@ fn test_module_flag_synthesis() {
 
     let precompile_args = ModuleDAG::precompile_args("c++20", &modules_dir, &src, &pcm);
     assert!(precompile_args.contains(&"--precompile".to_string()));
-    assert!(precompile_args.contains(&"-xc++-module".to_string()) || precompile_args.contains(&"c++-module".to_string()));
-    assert!(precompile_args.contains(&"-fprebuilt-module-path=/path/to/target/debug/modules".to_string()));
+    assert!(
+        precompile_args.contains(&"-xc++-module".to_string())
+            || precompile_args.contains(&"c++-module".to_string())
+    );
+    assert!(precompile_args
+        .contains(&"-fprebuilt-module-path=/path/to/target/debug/modules".to_string()));
 
     let consumer_args = ModuleDAG::consumer_module_args(&modules_dir);
-    assert_eq!(consumer_args, vec!["-fprebuilt-module-path=/path/to/target/debug/modules"]);
+    assert_eq!(
+        consumer_args,
+        vec!["-fprebuilt-module-path=/path/to/target/debug/modules"]
+    );
 }

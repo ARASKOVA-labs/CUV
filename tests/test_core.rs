@@ -1,5 +1,3 @@
-
-
 #[test]
 fn test_manifest_serialization() {
     let toml_str = r#"

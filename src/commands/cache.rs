@@ -25,23 +25,33 @@ pub fn handle_cache(action: CacheAction) -> Result<()> {
             let stats = cache.get_cache_stats()?;
             println!("\n{} Global Cache Overview", crate::ui::theme::logo_badge());
             println!("{}", crate::ui::theme::divider_line(52));
-            println!("  {} Root Directory:    {}", "•".cyan(), stats.root_dir.display().to_string().cyan());
+            println!(
+                "  {} Root Directory:    {}",
+                "•".cyan(),
+                stats.root_dir.display().to_string().cyan()
+            );
             println!(
                 "  {} Object Cache:      {} ({} objects)",
                 "•".cyan(),
-                crate::ui::theme::format_bytes(stats.object_bytes).green().bold(),
+                crate::ui::theme::format_bytes(stats.object_bytes)
+                    .green()
+                    .bold(),
                 stats.object_count.to_string().bold()
             );
             println!(
                 "  {} Package Cache:     {} ({} packages)",
                 "•".cyan(),
-                crate::ui::theme::format_bytes(stats.package_bytes).green().bold(),
+                crate::ui::theme::format_bytes(stats.package_bytes)
+                    .green()
+                    .bold(),
                 stats.package_count.to_string().bold()
             );
             println!(
                 "  {} Total Footprint:   {}",
                 "•".cyan(),
-                crate::ui::theme::format_bytes(stats.total_bytes).yellow().bold()
+                crate::ui::theme::format_bytes(stats.total_bytes)
+                    .yellow()
+                    .bold()
             );
             println!("{}\n", crate::ui::theme::divider_line(52));
         }
@@ -80,7 +90,9 @@ pub fn handle_cache(action: CacheAction) -> Result<()> {
             let stats = cache.get_cache_stats()?;
             println!(
                 "{} ({})",
-                crate::ui::theme::format_bytes(stats.total_bytes).yellow().bold(),
+                crate::ui::theme::format_bytes(stats.total_bytes)
+                    .yellow()
+                    .bold(),
                 stats.root_dir.display().to_string().dimmed()
             );
         }

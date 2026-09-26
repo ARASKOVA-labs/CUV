@@ -37,13 +37,12 @@ impl CloudClient {
             None => return Ok(None),
         };
 
-        let url = format!("{}/v1/cache/{}", self.config.endpoint.trim_end_matches('/'), hash);
-        let resp = self
-            .client
-            .get(&url)
-            .bearer_auth(token)
-            .send()
-            .await;
+        let url = format!(
+            "{}/v1/cache/{}",
+            self.config.endpoint.trim_end_matches('/'),
+            hash
+        );
+        let resp = self.client.get(&url).bearer_auth(token).send().await;
 
         match resp {
             Ok(res) if res.status().is_success() => {
@@ -60,7 +59,11 @@ impl CloudClient {
             None => return Ok(false),
         };
 
-        let url = format!("{}/v1/cache/{}", self.config.endpoint.trim_end_matches('/'), hash);
+        let url = format!(
+            "{}/v1/cache/{}",
+            self.config.endpoint.trim_end_matches('/'),
+            hash
+        );
         let resp = self
             .client
             .put(&url)

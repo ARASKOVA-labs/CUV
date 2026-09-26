@@ -40,18 +40,21 @@ pub async fn handle_run(release: bool, verbose: bool, args: Vec<String>) -> Resu
     let driver = CompilerDriver::new(tc, mf, project_dir);
     let binary = driver.build(&BuildOptions { release, verbose }).await?;
 
+    let run_title = format!(" 🚀 {} ", binary.display());
+    let width: usize = 64;
+    let border_len = width.saturating_sub(run_title.len() + 3);
     println!(
-        "{} `{}`\n{}",
-        "🚀".bright_purple(),
-        binary.display().to_string().cyan(),
-        crate::ui::theme::divider_line(52)
+        "{}{}{}",
+        "╭─".bright_purple(),
+        run_title.cyan().bold(),
+        "─".repeat(border_len).bright_purple()
     );
 
     let run_start = Instant::now();
     let status = Command::new(&binary).args(&args).status()?;
     let duration = run_start.elapsed();
 
-    println!("{}", crate::ui::theme::divider_line(52));
+    println!("╰{}╯", "─".repeat(width).bright_purple());
     if status.success() {
         println!(
             "{} Process exited with code 0 in {}\n",
