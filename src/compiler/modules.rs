@@ -114,7 +114,6 @@ impl ModuleDAG {
         })
     }
 
-    /// Topologically sort module interfaces so dependencies are built before dependents.
     pub fn topological_stages(&self) -> Result<Vec<Vec<ModuleInfo>>> {
         let mut in_degree: HashMap<String, usize> = HashMap::new();
         let mut dependents: HashMap<String, Vec<String>> = HashMap::new();

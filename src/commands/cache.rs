@@ -5,15 +5,17 @@ use colored::Colorize;
 
 #[derive(Subcommand, Debug, Clone)]
 pub enum CacheAction {
-    /// Display global cache location, object count, and size breakdown
+    #[command(about = "Display global cache location, object count, and size breakdown")]
     Info,
-    /// Evict cached items from the global content-addressable cache
+    #[command(about = "Evict cached items from the global content-addressable cache")]
     Clean {
-        /// Only evict compilation objects, preserving downloaded packages
-        #[arg(long)]
+        #[arg(
+            long,
+            help = "Only evict compilation objects, preserving downloaded packages"
+        )]
         obj_only: bool,
     },
-    /// Print total disk size consumed by the global cache
+    #[command(about = "Print total disk size consumed by the global cache")]
     Size,
 }
 

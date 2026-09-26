@@ -4,7 +4,7 @@ use std::process::Command;
 
 #[derive(Debug, Clone)]
 pub struct Toolchain {
-    pub compiler_path: PathBuf, // C++ compiler path (backwards compatibility)
+    pub compiler_path: PathBuf,
     pub cxx_path: PathBuf,
     pub cc_path: Option<PathBuf>,
     pub ar_path: Option<PathBuf>,
@@ -16,7 +16,6 @@ pub struct Toolchain {
 
 impl Toolchain {
     pub fn detect() -> Result<Self> {
-        // Priority for C++: clang++ -> g++ -> c++
         let cxx_candidates = ["clang++", "g++", "c++"];
         let mut cxx_info = None;
         for c in cxx_candidates {
@@ -33,7 +32,6 @@ impl Toolchain {
             None => bail!("No C++ compiler found on PATH (searched for clang++, g++, c++). Please install LLVM/Clang or GCC."),
         };
 
-        // Priority for C: clang -> gcc -> cc
         let cc_candidates = ["clang", "gcc", "cc"];
         let mut cc_path = None;
         for c in cc_candidates {
@@ -43,7 +41,6 @@ impl Toolchain {
             }
         }
 
-        // Priority for static archiver: ar -> llvm-ar
         let ar_candidates = ["ar", "llvm-ar"];
         let mut ar_path = None;
         for a in ar_candidates {

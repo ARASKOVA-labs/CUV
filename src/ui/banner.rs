@@ -14,7 +14,6 @@ pub const TAGLINE: &str = "⚡ C-Ultra-Velocity  •  The uv and bun for C/C++";
 pub const SUB_TAGLINE: &str =
     "Sub-millisecond builds, zero-config package manager, universal ABI cache";
 
-/// Prints the static stylized gradient banner
 pub fn print_static_banner() {
     println!();
     for (i, line) in CUV_ASCII_LOGO.iter().enumerate() {
@@ -31,7 +30,6 @@ pub fn print_static_banner() {
     println!("  {}\n", SUB_TAGLINE.dimmed());
 }
 
-/// Plays an animated wave shimmer over the ASCII logo
 pub async fn play_animated_shimmer() {
     if !stdout().is_terminal() {
         print_static_banner();
@@ -47,11 +45,10 @@ pub async fn play_animated_shimmer() {
         colored::Color::Green,
     ];
 
-    print!("\x1B[?25l"); // Hide cursor
+    print!("\x1B[?25l");
     let _ = stdout().flush();
 
     for frame in 0..colors.len() {
-        // Clear terminal lines if not first
         if frame > 0 {
             print!("\x1B[{}A", CUV_ASCII_LOGO.len() + 2);
         }
@@ -67,12 +64,11 @@ pub async fn play_animated_shimmer() {
         tokio::time::sleep(Duration::from_millis(50)).await;
     }
 
-    print!("\x1B[?25h"); // Restore cursor
+    print!("\x1B[?25h");
     let _ = stdout().flush();
     println!();
 }
 
-/// Helper to render a futuristic rounded HUD box
 pub fn render_card(title: &str, rows: &[(&str, String)]) {
     let width: usize = 64;
     let title_badge = format!(" ⚡ {} ", title);

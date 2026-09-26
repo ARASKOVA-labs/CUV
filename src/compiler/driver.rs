@@ -236,7 +236,6 @@ impl CompilerDriver {
                     let opt_level = if is_release { "release" } else { "debug" };
                     let std_flag = if ext == "c" { "c17" } else { &standard };
 
-                    // 1. Check Global Object Cache
                     let obj_hash = CacheManager::compute_object_hash(
                         &src,
                         &search_paths,
@@ -266,7 +265,6 @@ impl CompilerDriver {
                         }
                     }
 
-                    // 2. Cache Miss -> Invoke Compiler
                     let mut cmd = Command::new(&compiler);
                     if ext == "c" {
                         cmd.arg("-std=c17");
@@ -315,7 +313,6 @@ impl CompilerDriver {
                         );
                     }
 
-                    // 3. Populate Global Object Cache
                     if let Some(ref hash) = obj_hash {
                         let _ = cache.store_object(hash, &obj_path);
                     }

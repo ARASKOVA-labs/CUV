@@ -29,7 +29,6 @@ fn test_cloud_login_whoami_logout_lifecycle() {
     let config_dir = create_temp_dir("auth_lifecycle");
     let cuv = get_cuv_bin();
 
-    // 1. Initially whoami should report not logged in
     let whoami_1 = Command::new(&cuv)
         .arg("whoami")
         .env("CUV_CONFIG_DIR", &config_dir)
@@ -39,7 +38,6 @@ fn test_cloud_login_whoami_logout_lifecycle() {
     let stdout1 = String::from_utf8_lossy(&whoami_1.stdout);
     assert!(stdout1.contains("Not logged in"));
 
-    // 2. Perform login
     let login_out = Command::new(&cuv)
         .arg("login")
         .arg("--token")
@@ -54,10 +52,8 @@ fn test_cloud_login_whoami_logout_lifecycle() {
     assert!(login_str.contains("Authenticated with CUV Cloud"));
     assert!(login_str.contains("Araskova-Engineering"));
 
-    // Check credentials file was created
     assert!(config_dir.join("credentials.toml").exists());
 
-    // 3. Whoami should now report authenticated identity
     let whoami_2 = Command::new(&cuv)
         .arg("whoami")
         .env("CUV_CONFIG_DIR", &config_dir)
@@ -68,7 +64,6 @@ fn test_cloud_login_whoami_logout_lifecycle() {
     assert!(stdout2.contains("Authenticated"));
     assert!(stdout2.contains("Araskova-Engineering"));
 
-    // 4. Logout
     let logout_out = Command::new(&cuv)
         .arg("logout")
         .env("CUV_CONFIG_DIR", &config_dir)
@@ -78,7 +73,6 @@ fn test_cloud_login_whoami_logout_lifecycle() {
     let logout_str = String::from_utf8_lossy(&logout_out.stdout);
     assert!(logout_str.contains("Logged out"));
 
-    // 5. Whoami after logout
     let whoami_3 = Command::new(&cuv)
         .arg("whoami")
         .env("CUV_CONFIG_DIR", &config_dir)

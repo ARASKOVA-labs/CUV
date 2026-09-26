@@ -4,7 +4,7 @@ use std::process::Command;
 
 fn get_cuv_bin() -> PathBuf {
     let mut bin = std::env::current_exe().expect("current exe");
-    bin.pop(); // remove test binary
+    bin.pop();
     if bin.ends_with("deps") {
         bin.pop();
     }
@@ -29,7 +29,6 @@ fn test_executable_build_and_incremental_cache() {
     let temp_dir = create_temp_dir("exec_cache");
     let cuv = get_cuv_bin();
 
-    // 1. Init
     let status = Command::new(&cuv)
         .arg("init")
         .current_dir(&temp_dir)
@@ -39,7 +38,6 @@ fn test_executable_build_and_incremental_cache() {
     assert!(temp_dir.join("cuv.toml").exists());
     assert!(temp_dir.join("src").join("main.cpp").exists());
 
-    // 2. First build
     let output = Command::new(&cuv)
         .arg("build")
         .current_dir(&temp_dir)
@@ -53,12 +51,10 @@ fn test_executable_build_and_incremental_cache() {
     let bin_path = temp_dir.join("target").join("debug").join(proj_name);
     assert!(bin_path.exists());
 
-    // Run the compiled binary
     let run_output = Command::new(&bin_path).output().expect("run binary");
     assert!(run_output.status.success());
     assert!(String::from_utf8_lossy(&run_output.stdout).contains("Hello from CUV"));
 
-    // 3. Second build immediately (incremental cache hit)
     let output2 = Command::new(&cuv)
         .arg("build")
         .current_dir(&temp_dir)
@@ -76,7 +72,6 @@ fn test_static_library_build_and_test() {
     let temp_dir = create_temp_dir("static_lib");
     let cuv = get_cuv_bin();
 
-    // 1. Init lib
     let status = Command::new(&cuv)
         .arg("init")
         .arg("--lib")
@@ -85,7 +80,6 @@ fn test_static_library_build_and_test() {
         .expect("cuv init --lib");
     assert!(status.success());
 
-    // 2. Build lib
     let output = Command::new(&cuv)
         .arg("build")
         .current_dir(&temp_dir)
@@ -104,7 +98,6 @@ fn test_static_library_build_and_test() {
         lib_path.display()
     );
 
-    // 3. Run test runner
     let test_output = Command::new(&cuv)
         .arg("test")
         .current_dir(&temp_dir)
@@ -126,7 +119,6 @@ fn test_test_runner_linking_project_code() {
     let temp_dir = create_temp_dir("runner_link");
     let cuv = get_cuv_bin();
 
-    // 1. Init executable project
     let status = Command::new(&cuv)
         .arg("init")
         .current_dir(&temp_dir)
@@ -134,7 +126,6 @@ fn test_test_runner_linking_project_code() {
         .expect("cuv init");
     assert!(status.success());
 
-    // 2. Add helper header and cpp in src/
     fs::write(
         temp_dir.join("include").join("calc.h"),
         "#pragma once\nint multiply(int a, int b);\n",
@@ -146,7 +137,6 @@ fn test_test_runner_linking_project_code() {
     )
     .unwrap();
 
-    // 3. Add test in tests/ calling multiply
     let test_code = r#"#include "calc.h"
 #include <cassert>
 #include <iostream>
@@ -159,7 +149,6 @@ int main() {
 "#;
     fs::write(temp_dir.join("tests").join("test_calc.cpp"), test_code).unwrap();
 
-    // 4. Run cuv test
     let test_output = Command::new(&cuv)
         .arg("test")
         .current_dir(&temp_dir)
@@ -177,7 +166,6 @@ fn test_dependency_auto_sync() {
     let temp_dir = create_temp_dir("auto_sync");
     let cuv = get_cuv_bin();
 
-    // 1. Init
     let status = Command::new(&cuv)
         .arg("init")
         .current_dir(&temp_dir)
@@ -185,17 +173,14 @@ fn test_dependency_auto_sync() {
         .expect("cuv init");
     assert!(status.success());
 
-    // 2. Add dependency under [dependencies] section
     let manifest_path = temp_dir.join("cuv.toml");
     let manifest_content = fs::read_to_string(&manifest_path).unwrap();
     let updated_manifest =
         manifest_content.replace("[dependencies]", "[dependencies]\nfmt = \"10.2.1\"");
     fs::write(&manifest_path, updated_manifest).unwrap();
 
-    // Ensure .cuv does not exist
     assert!(!temp_dir.join(".cuv").exists());
 
-    // 3. Run cuv sync
     let sync_output = Command::new(&cuv)
         .arg("sync")
         .current_dir(&temp_dir)
@@ -210,7 +195,6 @@ fn test_dependency_auto_sync() {
         sync_stderr
     );
 
-    // Verify .cuv/include/fmt exists
     assert!(temp_dir
         .join(".cuv")
         .join("include")

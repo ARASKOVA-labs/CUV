@@ -208,15 +208,12 @@ impl CacheManager {
             if !linked {
                 std::fs::copy(&cached_obj, dst_obj)?;
             }
-
-            // Ensure destination object has current modification time
             let now = std::time::SystemTime::now();
             if let Ok(file) = std::fs::OpenOptions::new().write(true).open(dst_obj) {
                 let times = std::fs::FileTimes::new().set_modified(now);
                 let _ = file.set_times(times);
             }
 
-            // Generate clean project-local depfile
             let headers = Self::collect_headers(src_file, search_paths);
             let mut dep_content = format!("{}: {}", dst_obj.display(), src_file.display());
             for h in headers {

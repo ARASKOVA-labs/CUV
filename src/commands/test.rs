@@ -12,8 +12,6 @@ pub async fn handle_test() -> Result<()> {
         .context("No cuv.toml or cxx.toml found in current directory or parents.")?;
     let project_dir = manifest_path.parent().unwrap().to_path_buf();
     let mf = CuvManifest::load(&manifest_path)?;
-
-    // Auto-sync dependencies if missing
     let cache = CacheManager::default_dir()?;
     ensure_dependencies(&mf, &cache.root, &project_dir).await?;
 

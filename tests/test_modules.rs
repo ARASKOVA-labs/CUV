@@ -62,15 +62,12 @@ int main() { return compute(5); }
     let stages = dag.topological_stages().expect("topological sort");
     assert_eq!(stages.len(), 2, "Expected 2 dependency stages");
 
-    // Stage 0 must contain 'math' (0 dependencies)
     assert_eq!(stages[0].len(), 1);
     assert_eq!(stages[0][0].module_name.as_deref(), Some("math"));
 
-    // Stage 1 must contain 'calc' (depends on 'math')
     assert_eq!(stages[1].len(), 1);
     assert_eq!(stages[1][0].module_name.as_deref(), Some("calc"));
 
-    // Consumers check
     assert_eq!(dag.consumers.len(), 1);
     assert_eq!(dag.consumers[0].imported_modules, vec!["calc"]);
 

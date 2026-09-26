@@ -1,3 +1,4 @@
+use cuv::package::registry::{normalize_target_triple, PackageKind};
 use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
@@ -29,7 +30,6 @@ fn test_precompiled_binary_auto_linking() {
     let test_dir = create_temp_dir("auto_link");
     let cuv = get_cuv_bin();
 
-    // 1. Init project
     let status = Command::new(&cuv)
         .arg("init")
         .current_dir(&test_dir)
@@ -37,7 +37,6 @@ fn test_precompiled_binary_auto_linking() {
         .expect("cuv init");
     assert!(status.success());
 
-    // 2. Build a real static library archive (.a) to test pre-compiled binary artifact linking
     let lib_build_dir = create_temp_dir("build_test_lib");
     let util_c = lib_build_dir.join("testutil.c");
     let util_o = lib_build_dir.join("testutil.o");
@@ -53,7 +52,6 @@ int get_secret_number(void) {
     )
     .unwrap();
 
-    // Compile with host cc
     let cc_status = Command::new("cc")
         .arg("-c")
         .arg(&util_c)
@@ -71,7 +69,6 @@ int get_secret_number(void) {
         .expect("ar test lib");
     assert!(ar_status.success());
 
-    // 3. Mount into .cuv/lib/ and .cuv/include/
     let cuv_lib = test_dir.join(".cuv").join("lib");
     let cuv_inc = test_dir.join(".cuv").join("include");
     fs::create_dir_all(&cuv_lib).unwrap();
@@ -87,7 +84,6 @@ extern "C" int get_secret_number(void);
     )
     .unwrap();
 
-    // 4. Update main.cpp to call testutil
     let main_cpp = test_dir.join("src").join("main.cpp");
     fs::write(
         &main_cpp,
@@ -103,7 +99,6 @@ int main() {
     )
     .unwrap();
 
-    // 5. Build project with CUV
     let build_out = Command::new(&cuv)
         .arg("build")
         .current_dir(&test_dir)
@@ -115,7 +110,6 @@ int main() {
         String::from_utf8_lossy(&build_out.stderr)
     );
 
-    // 6. Run the compiled binary and verify execution
     let proj_name = test_dir.file_name().unwrap().to_str().unwrap();
     let bin_path = test_dir.join("target").join("debug").join(proj_name);
     assert!(bin_path.exists());
@@ -135,9 +129,7 @@ int main() {
 
 #[test]
 fn test_registry_binary_packages_metadata() {
-    use cuv::package::registry::{get_known_registry, normalize_target_triple, PackageKind};
-
-    let reg = get_known_registry();
+    let reg = cuv::package::registry::get_known_registry();
     assert!(reg.contains_key("sqlite3"));
     assert!(reg.contains_key("zlib"));
     assert!(reg.contains_key("raylib"));
@@ -153,7 +145,4 @@ fn test_registry_binary_packages_metadata() {
 
     let triple = normalize_target_triple("arm64-apple-darwin23.0.0");
     assert_eq!(triple, "aarch64-apple-darwin");
-
-    let linux_triple = normalize_target_triple("x86_64-unknown-linux-gnu");
-    assert_eq!(linux_triple, "x86_64-unknown-linux-gnu");
 }

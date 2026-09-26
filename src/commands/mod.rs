@@ -15,94 +15,100 @@ use clap::Subcommand;
 
 #[derive(Subcommand, Debug, Clone)]
 pub enum CloudAction {
-    /// Check remote cache connectivity and latency
+    #[command(about = "Check remote cache connectivity and latency")]
     Status,
 }
 
 #[derive(Subcommand)]
 pub enum Commands {
-    /// Initialize a new modern C++ project
+    #[command(about = "Initialize a new modern C++ project")]
     Init {
-        /// Project directory or name
-        #[arg(default_value = ".")]
+        #[arg(default_value = ".", help = "Project directory or name")]
         name: String,
-        /// C++ standard to use (c++17, c++20, c++23)
-        #[arg(long, default_value = "c++20")]
+        #[arg(
+            long,
+            default_value = "c++20",
+            help = "C++ standard to use (c++17, c++20, c++23)"
+        )]
         std: String,
-        /// Initialize as a library instead of executable
-        #[arg(long)]
+        #[arg(long, help = "Initialize as a library instead of executable")]
         lib: bool,
     },
-    /// Add a dependency (e.g. fmt, nlohmann_json, github:owner/repo)
+    #[command(about = "Add a dependency (e.g. fmt, nlohmann_json, github:owner/repo)")]
     Add {
-        /// Package name, alias, or GitHub repo (e.g., "fmt", "github:nlohmann/json")
+        #[arg(
+            help = "Package name, alias, or GitHub repo (e.g., \"fmt\", \"github:nlohmann/json\")"
+        )]
         package: String,
-        /// Specific version or tag
-        #[arg(short, long)]
+        #[arg(short, long, help = "Specific version or tag")]
         version: Option<String>,
     },
-    /// Compile the C/C++ project
+    #[command(about = "Compile the C/C++ project")]
     Build {
-        /// Build with optimizations in release mode (-O3, -DNDEBUG)
-        #[arg(short, long)]
+        #[arg(
+            short,
+            long,
+            help = "Build with optimizations in release mode (-O3, -DNDEBUG)"
+        )]
         release: bool,
-        /// Verbose compiler commands
-        #[arg(short, long)]
+        #[arg(short, long, help = "Verbose compiler commands")]
         verbose: bool,
     },
-    /// Build and run the project executable
+    #[command(about = "Build and run the project executable")]
     Run {
-        /// Run in release mode
-        #[arg(short, long)]
+        #[arg(short, long, help = "Run in release mode")]
         release: bool,
-        /// Verbose output
-        #[arg(short, long)]
+        #[arg(short, long, help = "Verbose output")]
         verbose: bool,
-        /// Arguments passed directly to the compiled executable
-        #[arg(last = true)]
+        #[arg(
+            last = true,
+            help = "Arguments passed directly to the compiled executable"
+        )]
         args: Vec<String>,
     },
-    /// Discover and run test suites in tests/ or test/
+    #[command(about = "Discover and run test suites in tests/ or test/")]
     Test,
-    /// Export project configurations (e.g. CMakeLists.txt or cuv.cmake)
+    #[command(about = "Export project configurations (e.g. CMakeLists.txt or cuv.cmake)")]
     Export {
-        /// Format to export: "cmake" or "provider"
-        #[arg(default_value = "cmake")]
+        #[arg(
+            default_value = "cmake",
+            help = "Format to export: \"cmake\" or \"provider\""
+        )]
         format: String,
     },
-    /// Sync and restore all dependencies declared in cuv.toml
-    #[command(alias = "install")]
+    #[command(
+        alias = "install",
+        about = "Sync and restore all dependencies declared in cuv.toml"
+    )]
     Sync,
-    /// Remove build artifacts (target/)
+    #[command(about = "Remove build artifacts (target/)")]
     Clean,
-    /// Inspect or clear the machine-wide global cache
+    #[command(about = "Inspect or clear the machine-wide global cache")]
     Cache {
         #[command(subcommand)]
         action: cache::CacheAction,
     },
-    /// Authenticate with CUV Cloud team cache
+    #[command(about = "Authenticate with CUV Cloud team cache")]
     Login {
-        /// API token for authentication
-        #[arg(short, long)]
+        #[arg(short, long, help = "API token for authentication")]
         token: Option<String>,
-        /// Organization name
-        #[arg(short, long)]
+        #[arg(short, long, help = "Organization name")]
         org: Option<String>,
     },
-    /// Clear CUV Cloud authentication credentials
+    #[command(about = "Clear CUV Cloud authentication credentials")]
     Logout,
-    /// Show current CUV Cloud authentication identity
+    #[command(about = "Show current CUV Cloud authentication identity")]
     Whoami,
-    /// Inspect CUV Cloud remote cache status and latency
+    #[command(about = "Inspect CUV Cloud remote cache status and latency")]
     Cloud {
         #[command(subcommand)]
         action: Option<CloudAction>,
     },
-    /// Display detected C++ toolchain and environment info
+    #[command(about = "Display detected C++ toolchain and environment info")]
     Info,
-    /// Play interactive live visual demo of CUV animations and velocity
+    #[command(about = "Play interactive live visual demo of CUV animations and velocity")]
     Demo,
-    /// Display the CUV stylized ASCII banner
+    #[command(about = "Display the CUV stylized ASCII banner")]
     Banner,
 }
 

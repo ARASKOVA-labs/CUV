@@ -231,7 +231,6 @@ pub fn get_known_registry() -> HashMap<&'static str, KnownPackage> {
         },
     );
 
-    // --- Phase 4: Compiled Binary Libraries ---
     m.insert(
         "sqlite3",
         KnownPackage {

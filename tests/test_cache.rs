@@ -4,7 +4,7 @@ use std::process::Command;
 
 fn get_cuv_bin() -> PathBuf {
     let mut bin = std::env::current_exe().expect("current exe");
-    bin.pop(); // remove test binary
+    bin.pop();
     if bin.ends_with("deps") {
         bin.pop();
     }
@@ -30,7 +30,6 @@ fn test_global_cache_hit_after_clean() {
     let cache_dir = create_temp_dir("clean_cache_store");
     let cuv = get_cuv_bin();
 
-    // 1. Initialize project
     let status = Command::new(&cuv)
         .arg("init")
         .env("CUV_CACHE_DIR", &cache_dir)
@@ -39,7 +38,6 @@ fn test_global_cache_hit_after_clean() {
         .expect("cuv init");
     assert!(status.success());
 
-    // 2. First build: compiles and stores into global cache
     let output1 = Command::new(&cuv)
         .arg("build")
         .env("CUV_CACHE_DIR", &cache_dir)
@@ -50,7 +48,6 @@ fn test_global_cache_hit_after_clean() {
     let stdout1 = String::from_utf8_lossy(&output1.stdout);
     assert!(stdout1.contains("Built"));
 
-    // Check that global cache obj directory was populated
     let obj_cache = cache_dir.join("obj");
     assert!(obj_cache.exists(), "Cache obj directory should exist");
     let cached_files: Vec<_> = fs::read_dir(&obj_cache)
@@ -64,7 +61,6 @@ fn test_global_cache_hit_after_clean() {
         obj_cache
     );
 
-    // 3. Run cuv clean (wipes target/ completely)
     let clean_status = Command::new(&cuv)
         .arg("clean")
         .env("CUV_CACHE_DIR", &cache_dir)
@@ -74,7 +70,6 @@ fn test_global_cache_hit_after_clean() {
     assert!(clean_status.success());
     assert!(!test_dir.join("target").exists());
 
-    // 4. Second build: should restore from global cache in < 1ms
     let output2 = Command::new(&cuv)
         .arg("build")
         .env("CUV_CACHE_DIR", &cache_dir)
@@ -89,7 +84,6 @@ fn test_global_cache_hit_after_clean() {
         stdout2
     );
 
-    // Verify binary runs correctly
     let proj_name = test_dir.file_name().unwrap().to_str().unwrap();
     let bin_path = test_dir.join("target").join("debug").join(proj_name);
     assert!(bin_path.exists());
@@ -108,21 +102,18 @@ fn test_cross_project_cache_sharing() {
     let shared_cache = create_temp_dir("shared_cache");
     let cuv = get_cuv_bin();
 
-    // Init Project A
     let _ = Command::new(&cuv)
         .arg("init")
         .env("CUV_CACHE_DIR", &shared_cache)
         .current_dir(&proj_a)
         .status();
 
-    // Init Project B
     let _ = Command::new(&cuv)
         .arg("init")
         .env("CUV_CACHE_DIR", &shared_cache)
         .current_dir(&proj_b)
         .status();
 
-    // Copy identical source code to both projects
     let common_code = r#"#include <iostream>
 int main() {
     std::cout << "Identical code across projects!" << std::endl;
@@ -132,7 +123,6 @@ int main() {
     fs::write(proj_a.join("src").join("main.cpp"), common_code).unwrap();
     fs::write(proj_b.join("src").join("main.cpp"), common_code).unwrap();
 
-    // Build Project A
     let output_a = Command::new(&cuv)
         .arg("build")
         .env("CUV_CACHE_DIR", &shared_cache)
@@ -141,7 +131,6 @@ int main() {
         .expect("build proj a");
     assert!(output_a.status.success());
 
-    // Build Project B (identical source should hit global cache populated by Project A)
     let output_b = Command::new(&cuv)
         .arg("build")
         .env("CUV_CACHE_DIR", &shared_cache)
@@ -167,7 +156,6 @@ fn test_cache_cli_info_and_clean() {
     let cache_dir = create_temp_dir("cli_cache_dir");
     let cuv = get_cuv_bin();
 
-    // Init & build to generate cached objects
     let _ = Command::new(&cuv)
         .arg("init")
         .env("CUV_CACHE_DIR", &cache_dir)
@@ -180,7 +168,6 @@ fn test_cache_cli_info_and_clean() {
         .current_dir(&test_dir)
         .status();
 
-    // 1. cuv cache info
     let info_out = Command::new(&cuv)
         .arg("cache")
         .arg("info")
@@ -193,7 +180,6 @@ fn test_cache_cli_info_and_clean() {
     assert!(info_str.contains("Global Cache Overview"));
     assert!(info_str.contains("Object Cache:"));
 
-    // 2. cuv cache size
     let size_out = Command::new(&cuv)
         .arg("cache")
         .arg("size")
@@ -205,7 +191,6 @@ fn test_cache_cli_info_and_clean() {
     let size_str = String::from_utf8_lossy(&size_out.stdout);
     assert!(size_str.contains("B") || size_str.contains("KB") || size_str.contains("MB"));
 
-    // 3. cuv cache clean --obj-only
     let clean_out = Command::new(&cuv)
         .arg("cache")
         .arg("clean")
@@ -218,7 +203,6 @@ fn test_cache_cli_info_and_clean() {
     let clean_str = String::from_utf8_lossy(&clean_out.stdout);
     assert!(clean_str.contains("Evicted"));
 
-    // Verify cache is empty now
     let info_after = Command::new(&cuv)
         .arg("cache")
         .arg("info")

@@ -6,7 +6,6 @@ pub async fn handle_login(token: Option<String>, org: Option<String>) -> Result<
     let tok = if let Some(t) = token {
         t
     } else {
-        // Read from stdin or default test token
         println!("Enter your CUV Cloud API token: ");
         let mut input = String::new();
         std::io::stdin().read_line(&mut input)?;

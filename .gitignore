@@ -6,8 +6,9 @@ Cargo.lock.bak
 # CUV runtime caches & local directories
 .cuv/
 compile_commands.json
+credentials.toml
 
-# C/C++ compiled objects and archives
+# C/C++ compiled objects, modules, and archives
 *.o
 *.obj
 *.a
@@ -19,6 +20,15 @@ compile_commands.json
 *.pcm
 *.d
 CMakeLists.txt.cuv_backup
+
+# Archives & logs
+*.tar.gz
+*.zip
+*.log
+
+# Environment & credentials
+.env
+.env.*
 
 # OS junk & temporary files
 .DS_Store

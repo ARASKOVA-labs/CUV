@@ -72,7 +72,6 @@ pub async fn resolve_and_fetch_package(
 
         let mut downloaded_bytes = None;
 
-        // 1. If known package has binary artifacts matching host triple, try artifact first
         if let Some(known) = known_pkg {
             if let Ok(tc) = Toolchain::detect() {
                 let normalized_triple = normalize_target_triple(&tc.target_triple);
@@ -81,7 +80,6 @@ pub async fn resolve_and_fetch_package(
                         if let Ok(resp) = client.get(artifact.url).send().await {
                             if resp.status().is_success() {
                                 if let Ok(bytes) = resp.bytes().await {
-                                    // Verify SHA256 checksum
                                     if artifact.sha256.is_empty()
                                         || verify_sha256(&bytes, artifact.sha256)
                                     {
@@ -96,7 +94,6 @@ pub async fn resolve_and_fetch_package(
             }
         }
 
-        // 2. Fallback to repository release / tag tarball
         if downloaded_bytes.is_none() {
             let mut urls_to_try = Vec::new();
             urls_to_try.push(format!(
@@ -150,7 +147,6 @@ pub async fn resolve_and_fetch_package(
             }
         };
 
-        // Extract tar.gz into target_cache_dir
         let tar = GzDecoder::new(&bytes[..]);
         let mut archive = Archive::new(tar);
         archive
@@ -159,7 +155,6 @@ pub async fn resolve_and_fetch_package(
         spinner.finish_and_clear();
     }
 
-    // Locate include and lib sources
     let mut include_source = target_cache_dir.clone();
     let mut lib_source = None;
 
@@ -177,7 +172,6 @@ pub async fn resolve_and_fetch_package(
                     include_source = first.path();
                 }
 
-                // Check for lib directory in unpacked archive
                 let lib_candidate = first.path().join("lib");
                 if lib_candidate.is_dir() {
                     lib_source = Some(lib_candidate);
@@ -186,12 +180,10 @@ pub async fn resolve_and_fetch_package(
         }
     }
 
-    // Direct check if target_cache_dir has lib/
     if lib_source.is_none() && target_cache_dir.join("lib").is_dir() {
         lib_source = Some(target_cache_dir.join("lib"));
     }
 
-    // Mount include directory
     let project_cuv_inc = project_dir.join(".cuv").join("include");
     std::fs::create_dir_all(&project_cuv_inc)?;
     CacheManager::link_tree(&include_source, &project_cuv_inc)?;
@@ -203,7 +195,6 @@ pub async fn resolve_and_fetch_package(
         tag.dimmed()
     );
 
-    // Mount lib directory if present or if package is a binary artifact
     if let Some(lib_dir) = lib_source {
         let project_cuv_lib = project_dir.join(".cuv").join("lib");
         std::fs::create_dir_all(&project_cuv_lib)?;
@@ -215,7 +206,6 @@ pub async fn resolve_and_fetch_package(
             tag.dimmed()
         );
     } else if is_binary {
-        // Ensure .cuv/lib exists for static libraries
         let project_cuv_lib = project_dir.join(".cuv").join("lib");
         std::fs::create_dir_all(&project_cuv_lib)?;
     }

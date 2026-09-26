@@ -23,8 +23,6 @@ pub async fn handle_run(release: bool, verbose: bool, args: Vec<String>) -> Resu
             mf.project.kind
         );
     }
-
-    // Auto-sync dependencies if missing
     let cache = CacheManager::default_dir()?;
     ensure_dependencies(&mf, &cache.root, &project_dir).await?;
 

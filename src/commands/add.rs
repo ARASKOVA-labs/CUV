@@ -12,8 +12,6 @@ pub async fn handle_add(package: &str, version: Option<String>) -> Result<()> {
     let mut mf = CuvManifest::load(&manifest_path)?;
 
     let cache = CacheManager::default_dir()?;
-
-    // Fetch and mount the package
     resolve_and_fetch_package(package, version.as_deref(), &cache.root, &project_dir).await?;
 
     let dep = if let Some(v) = version {

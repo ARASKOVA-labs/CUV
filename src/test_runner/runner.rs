@@ -64,7 +64,6 @@ impl TestRunner {
 
         let overall_start = Instant::now();
 
-        // Precompile project non-main objects so tests can link against project functions
         let driver = CompilerDriver::new(
             self.toolchain.clone(),
             self.manifest.clone(),
@@ -116,7 +115,6 @@ impl TestRunner {
                 cmd.arg(obj);
             }
 
-            // Apply platform link flags and .cuv/lib/ auto-linking
             let target_cfg = if cfg!(target_os = "macos") {
                 self.manifest
                     .target
@@ -154,7 +152,6 @@ impl TestRunner {
                 continue;
             }
 
-            // Run test binary
             let run_output = Command::new(&bin_path).output()?;
             if run_output.status.success() {
                 print_test_suite_result(&test_name, true, test_start.elapsed(), None);

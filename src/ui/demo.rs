@@ -9,10 +9,8 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 pub async fn run_demo() -> Result<()> {
-    // 1. Shimmering animated banner
     play_animated_shimmer().await;
 
-    // 2. Hardware and Toolchain Card
     let toolchain_info = vec![
         (
             "Engine",
@@ -49,7 +47,6 @@ pub async fn run_demo() -> Result<()> {
     render_card("SYSTEM TOOLCHAIN HUD", &toolchain_info);
     println!();
 
-    // 3. Module DAG scanning spinner
     let spinner = create_spinner("Scanning C++20 module dependency graph...");
     tokio::time::sleep(Duration::from_millis(300)).await;
     spinner.finish_with_message(format!(
@@ -59,7 +56,6 @@ pub async fn run_demo() -> Result<()> {
 
     println!();
 
-    // 4. Multi-Threaded Compilation Simulation
     println!(
         "{} {} v0.1.0 (clang++ [aarch64-apple-darwin])",
         "⚡".yellow(),
@@ -88,7 +84,6 @@ pub async fn run_demo() -> Result<()> {
 
     pb.finish_and_clear();
 
-    // 5. Build summary HUD
     print_build_summary(
         "nebula_engine",
         "executable",
@@ -101,7 +96,6 @@ pub async fn run_demo() -> Result<()> {
         Duration::from_millis(342),
     );
 
-    // 6. Test Runner Animation
     println!("\n{} Running engine test suites...", "🧪".magenta().bold());
     tokio::time::sleep(Duration::from_millis(150)).await;
     print_test_suite_result(
@@ -126,7 +120,6 @@ pub async fn run_demo() -> Result<()> {
     );
     print_test_summary(3, 0, Duration::from_millis(35));
 
-    // 7. CUV Cloud status pulse
     let cloud_info = vec![
         (
             "Remote Cache",
