@@ -1,20 +1,21 @@
-# CUV (C-Ultra-Velocity) ⚡
-> Extremely fast, zero-dependency package manager, build driver, and toolchain orchestrator for C and C++.
-> An **Araskova Systems** Open Source Initiative. Inspired by `uv` (Python) and `bun` (JavaScript).
+<p align="center">
+  <img src="assets/logo.png" alt="CUV Logo" width="220" />
+</p>
 
-```
-   ______  __  ___    __
-  / ____/ / / / / |  / /
- / /     / / / /| | / / 
-/ /___  / /_/ / | |/ /  
-\____/  \____/  |___/   
-```
+<h1 align="center">CUV (C-Ultra-Velocity) ⚡</h1>
 
-[![CI](https://github.com/ARASKOVA-labs/CUV/actions/workflows/ci.yml/badge.svg)](https://github.com/ARASKOVA-labs/CUV/actions)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE)
-[![Built with Rust](https://img.shields.io/badge/Built%20with-Rust-orange.svg)](https://www.rust-lang.org)
-[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey.svg)]()
-[![Status](https://img.shields.io/badge/Status-Alpha%20Active-emerald.svg)]()
+<p align="center">
+  <strong>Extremely fast, zero-dependency package manager, build driver, and toolchain orchestrator for C and C++.</strong><br />
+  <em>An <strong>Araskova Systems</strong> Open Source Initiative. Inspired by <code>uv</code> (Python) and <code>bun</code> (JavaScript).</em>
+</p>
+
+<p align="center">
+  <a href="https://github.com/ARASKOVA-labs/CUV/actions"><img src="https://github.com/ARASKOVA-labs/CUV/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg" alt="License: MIT OR Apache-2.0" /></a>
+  <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/Built%20with-Rust-orange.svg" alt="Built with Rust" /></a>
+  <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey.svg" alt="Platform" />
+  <img src="https://img.shields.io/badge/Status-Alpha%20Active-emerald.svg" alt="Status" />
+</p>
 
 ---
 
