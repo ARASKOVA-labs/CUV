@@ -1,5 +1,5 @@
 # CUV (C-Ultra-Velocity) Universal Installer for Windows PowerShell
-# Usage: powershell -c "irm https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.ps1 | iex"
+# Usage: powershell -c "irm https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.ps1 | iex"
 
 $ErrorActionPreference = "Stop"
 
@@ -8,7 +8,7 @@ Write-Host "The 'uv' and 'bun' for C and C++" -ForegroundColor DarkGray
 
 $target = "x86_64-pc-windows-msvc"
 $installDir = Join-Path $HOME ".cuv\bin"
-$repo = "araskova/cuv"
+$repo = "ARASKOVA-labs/CUV"
 $tag = if ($env:CUV_VERSION) { $env:CUV_VERSION } else { "latest" }
 
 if ($tag -eq "latest") {

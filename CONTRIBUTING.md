@@ -12,7 +12,7 @@ Thank you for your interest in contributing to **CUV**! We are building the next
 
 ### 1. Clone & Build
 ```bash
-git clone https://github.com/araskova/cuv.git
+git clone https://github.com/ARASKOVA-labs/CUV.git
 cd cuv
 cargo build
 ```
@@ -100,7 +100,7 @@ CUV is organized into clean, domain-specific modules:
 
 ## 💬 Community & Questions
 
-- **Issues**: Use our [GitHub Issue Templates](https://github.com/araskova/cuv/issues/new/choose) for bugs, feature ideas, and library requests.
+- **Issues**: Use our [GitHub Issue Templates](https://github.com/ARASKOVA-labs/CUV/issues/new/choose) for bugs, feature ideas, and library requests.
 - **Discussions**: Share ideas, show off projects built with CUV, and connect with the community.
 - **Code of Conduct**: All participants are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
 

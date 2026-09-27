@@ -6,9 +6,9 @@ description = "Extremely fast, zero-dependency package manager and build driver 
 authors = ["Araskova <engineering@araskova.com>"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/araskova/cuv"
-homepage = "https://github.com/araskova/cuv"
-documentation = "https://github.com/araskova/cuv#readme"
+repository = "https://github.com/ARASKOVA-labs/CUV"
+homepage = "https://github.com/ARASKOVA-labs/CUV"
+documentation = "https://github.com/ARASKOVA-labs/CUV#readme"
 keywords = ["cpp", "c", "build-system", "package-manager", "compiler"]
 categories = ["development-tools::build-utils", "command-line-utilities"]
 

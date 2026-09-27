@@ -10,7 +10,7 @@
 \____/  \____/  |___/   
 ```
 
-[![CI](https://github.com/araskova/cuv/actions/workflows/ci.yml/badge.svg)](https://github.com/araskova/cuv/actions)
+[![CI](https://github.com/ARASKOVA-labs/CUV/actions/workflows/ci.yml/badge.svg)](https://github.com/ARASKOVA-labs/CUV/actions)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE)
 [![Built with Rust](https://img.shields.io/badge/Built%20with-Rust-orange.svg)](https://www.rust-lang.org)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey.svg)]()
@@ -49,17 +49,17 @@ Install CUV directly with a single shell command without needing any external de
 
 **macOS & Linux:**
 ```bash
-curl -LsSf https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.sh | sh
 ```
 
 **Windows (PowerShell):**
 ```powershell
-powershell -c "irm https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.ps1 | iex"
+powershell -c "irm https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.ps1 | iex"
 ```
 
 ### Option 2: Homebrew (macOS & Linux)
 ```bash
-brew install araskova/tap/cuv
+brew install ARASKOVA-labs/tap/cuv
 ```
 
 ### Option 3: Via Cargo & Crates.io
@@ -68,7 +68,7 @@ brew install araskova/tap/cuv
 cargo binstall cuv
 
 # Or compile from source
-cargo install --git https://github.com/araskova/cuv.git
+cargo install --git https://github.com/ARASKOVA-labs/CUV.git
 ```
 
 Verify your installation:
@@ -207,8 +207,8 @@ We welcome contributors of all experience levels! Check out our **[Contributing 
 ### 🌟 3-Minute Contribution: Add a Library
 Adding a C++ library to the CUV registry takes just 3 lines of Rust in [`src/package/registry.rs`](src/package/registry.rs)! See the [3-Minute Guide](CONTRIBUTING.md#-the-3-minute-contribution-add-a-library-to-cuv).
 
-- **Good First Issues**: Check out issues labeled [`good-first-issue`](https://github.com/araskova/cuv/labels/good-first-issue).
-- **Request a Library**: Open a [Library Request](https://github.com/araskova/cuv/issues/new?template=library_request.yml).
+- **Good First Issues**: Check out issues labeled [`good-first-issue`](https://github.com/ARASKOVA-labs/CUV/labels/good-first-issue).
+- **Request a Library**: Open a [Library Request](https://github.com/ARASKOVA-labs/CUV/issues/new?template=library_request.yml).
 - **Business Model & Strategy**: Read [`BUSINESS_MODEL.md`](BUSINESS_MODEL.md) for our commercialization and growth plan.
 - **Architectural Specification**: Read [`SPECIFICATION.md`](SPECIFICATION.md).
 - **Roadmap & Phases**: Read [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md).

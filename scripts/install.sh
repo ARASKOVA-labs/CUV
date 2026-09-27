@@ -1,6 +1,6 @@
 #!/bin/sh
 # CUV (C-Ultra-Velocity) Universal Installer for macOS and Linux
-# Usage: curl -LsSf https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.sh | sh
+# Usage: curl -LsSf https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.sh | sh
 
 set -e
 
@@ -54,7 +54,7 @@ detect_target() {
         *)
             echo "Unsupported operating system: $OS"
             echo "For Windows, install via PowerShell:"
-            echo '  powershell -c "irm https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.ps1 | iex"'
+            echo '  powershell -c "irm https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.ps1 | iex"'
             exit 1
             ;;
     esac
@@ -65,7 +65,7 @@ main() {
     detect_target
 
     INSTALL_DIR="${CUV_INSTALL_DIR:-$HOME/.cuv/bin}"
-    REPO="araskova/cuv"
+    REPO="ARASKOVA-labs/CUV"
     TAG="${CUV_VERSION:-latest}"
 
     if [ "$TAG" = "latest" ]; then

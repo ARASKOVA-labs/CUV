@@ -34,13 +34,13 @@ This is the highest-conversion channel for 90%+ of developers. It downloads the 
 
 ### macOS & Linux
 ```bash
-curl -LsSf https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.sh | sh
 ```
 *(Or with custom domain once DNS is mapped: `curl -LsSf https://cuv.araskova.com/install.sh | sh`)*
 
 ### Windows (PowerShell)
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.ps1 | iex"
+powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.ps1 | iex"
 ```
 
 ---
@@ -50,11 +50,11 @@ powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/ara
 Homebrew is the primary package manager for macOS developers.
 
 ### Setting up the Tap
-1. Create a public repository on GitHub: `araskova/homebrew-tap`.
+1. Create a public repository on GitHub: `ARASKOVA-labs/homebrew-tap`.
 2. Add the formula at `Formula/cuv.rb` (provided in this repository).
 3. Developers install via:
    ```bash
-   brew install araskova/tap/cuv
+   brew install ARASKOVA-labs/tap/cuv
    ```
 4. Once CUV achieves 75+ stars and notable adoption, submit a PR to `homebrew/core` for `brew install cuv` direct availability!
 
@@ -103,9 +103,9 @@ The pipeline is pre-configured in [`.github/workflows/release.yml`](.github/work
 
 ## 6. GitHub Actions Action for Enterprise CI/CD
 
-To allow teams to use CUV in their own GitHub Actions workflows (e.g. `uses: araskova/setup-cuv@v1`):
+To allow teams to use CUV in their own GitHub Actions workflows (e.g. `uses: ARASKOVA-labs/setup-cuv@v1`):
 
-Create an `action.yml` in `araskova/setup-cuv`:
+Create an `action.yml` in `ARASKOVA-labs/setup-cuv`:
 ```yaml
 name: 'Setup CUV'
 description: 'Install and configure CUV (C-Ultra-Velocity)'
@@ -118,7 +118,7 @@ runs:
   steps:
     - shell: bash
       run: |
-        curl -LsSf https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.sh | sh
+        curl -LsSf https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.sh | sh
         echo "$HOME/.cuv/bin" >> $GITHUB_PATH
 ```
 

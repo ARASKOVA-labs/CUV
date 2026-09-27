@@ -16,7 +16,7 @@ Hey HN,
 
 We're open-sourcing CUV (C-Ultra-Velocity) — a standalone Rust binary that gives C and C++ the developer experience of Rust's `cargo`, Python's `uv`, and JavaScript's `bun`.
 
-GitHub: https://github.com/araskova/cuv
+GitHub: https://github.com/ARASKOVA-labs/CUV
 
 ### Why did we build this?
 In 2026, systems programming is still bogged down by tooling friction:
@@ -36,7 +36,7 @@ In 2026, systems programming is still bogged down by tooling friction:
 ### 60-Second Quickstart:
 ```bash
 # macOS & Linux:
-curl -LsSf https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.sh | sh
 
 # Try the live interactive visual demo:
 cuv demo
@@ -63,7 +63,7 @@ Built in Rust. Zero dependencies. Sub-millisecond incremental builds.
 No CMake headache. No Python scripts. Just instant modern C++.
 
 Try it in 2 seconds:
-curl -LsSf https://raw.githubusercontent.com/araskova/cuv/master/scripts/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/ARASKOVA-labs/CUV/main/scripts/install.sh | sh
 
 🧵👇 [Attach terminal recording of `cuv demo`]
 ```
@@ -107,7 +107,7 @@ Under the hood:
 ```text
 CUV is 100% open source (MIT / Apache-2.0).
 
-⭐ Star the repo: https://github.com/araskova/cuv
+⭐ Star the repo: https://github.com/ARASKOVA-labs/CUV
 📦 Adding a C++ library takes just 3 lines of Rust in `src/package/registry.rs`.
 
 Let's fix C++ tooling together. ⚡
@@ -155,7 +155,7 @@ Modeled after modern developer-favorite tools like Astral's uv and Oven's bun, C
 3. Frictionless CI/CD acceleration that integrates with existing CMake pipelines.
 
 The codebase is dual-licensed (MIT / Apache-2.0) and available today:
-https://github.com/araskova/cuv
+https://github.com/ARASKOVA-labs/CUV
 
 #SoftwareEngineering #CPP #RustLang #DevOps #CI #OpenSource #SystemsProgramming #Performance
 ```

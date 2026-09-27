@@ -245,13 +245,13 @@ pub fn get_known_registry() -> HashMap<&'static str, KnownPackage> {
             artifacts: &[
                 BinaryArtifact {
                     target_triple: "aarch64-apple-darwin",
-                    url: "https://github.com/araskova/cuv-binaries/releases/download/v0.1.0/sqlite3-3.45.1-aarch64-apple-darwin.tar.gz",
+                    url: "https://github.com/ARASKOVA-labs/cuv-binaries/releases/download/v0.1.0/sqlite3-3.45.1-aarch64-apple-darwin.tar.gz",
                     sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
                     lib_filename: "libsqlite3.a",
                 },
                 BinaryArtifact {
                     target_triple: "x86_64-unknown-linux-gnu",
-                    url: "https://github.com/araskova/cuv-binaries/releases/download/v0.1.0/sqlite3-3.45.1-x86_64-unknown-linux-gnu.tar.gz",
+                    url: "https://github.com/ARASKOVA-labs/cuv-binaries/releases/download/v0.1.0/sqlite3-3.45.1-x86_64-unknown-linux-gnu.tar.gz",
                     sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
                     lib_filename: "libsqlite3.a",
                 },
@@ -273,7 +273,7 @@ pub fn get_known_registry() -> HashMap<&'static str, KnownPackage> {
             artifacts: &[
                 BinaryArtifact {
                     target_triple: "aarch64-apple-darwin",
-                    url: "https://github.com/araskova/cuv-binaries/releases/download/v0.1.0/zlib-1.3.1-aarch64-apple-darwin.tar.gz",
+                    url: "https://github.com/ARASKOVA-labs/cuv-binaries/releases/download/v0.1.0/zlib-1.3.1-aarch64-apple-darwin.tar.gz",
                     sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
                     lib_filename: "libz.a",
                 },
@@ -295,7 +295,7 @@ pub fn get_known_registry() -> HashMap<&'static str, KnownPackage> {
             artifacts: &[
                 BinaryArtifact {
                     target_triple: "aarch64-apple-darwin",
-                    url: "https://github.com/araskova/cuv-binaries/releases/download/v0.1.0/raylib-5.0-aarch64-apple-darwin.tar.gz",
+                    url: "https://github.com/ARASKOVA-labs/cuv-binaries/releases/download/v0.1.0/raylib-5.0-aarch64-apple-darwin.tar.gz",
                     sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
                     lib_filename: "libraylib.a",
                 },
