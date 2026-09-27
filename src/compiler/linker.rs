@@ -77,11 +77,12 @@ pub async fn link_shared_lib(
         cmd.arg("-shared");
     }
 
-    apply_target_link_flags(&mut cmd, target_cfg, project_dir);
-
     for obj in objects {
         cmd.arg(obj);
     }
+
+    apply_target_link_flags(&mut cmd, target_cfg, project_dir);
+
     cmd.arg("-o").arg(output_path);
 
     if verbose {
@@ -111,11 +112,12 @@ pub async fn link_executable(
         cmd.arg("-g");
     }
 
-    apply_target_link_flags(&mut cmd, target_cfg, project_dir);
-
     for obj in objects {
         cmd.arg(obj);
     }
+
+    apply_target_link_flags(&mut cmd, target_cfg, project_dir);
+
     cmd.arg("-o").arg(output_path);
 
     if verbose {
