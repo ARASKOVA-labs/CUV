@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="CUV Logo" width="180" />
+  <img src="assets/logo.svg" alt="CUV Logo" width="180" />
 </p>
 
 <h1 align="center">CUV (C-Ultra-Velocity) ⚡</h1>
