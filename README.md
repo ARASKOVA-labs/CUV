@@ -1,5 +1,12 @@
 <p align="center">
-  <img src="assets/banner.png" alt="CUV - C-Ultra-Velocity by Araskova Labs" width="100%" />
+  <img src="assets/logo.png" alt="CUV Logo" width="180" />
+</p>
+
+<h1 align="center">CUV (C-Ultra-Velocity) ⚡</h1>
+
+<p align="center">
+  <strong>Extremely fast, zero-dependency package manager, build driver, and toolchain orchestrator for C and C++.</strong><br />
+  <em>An <strong>Araskova Systems</strong> Open Source Initiative. Inspired by <code>uv</code> (Python) and <code>bun</code> (JavaScript).</em>
 </p>
 
 <p align="center">

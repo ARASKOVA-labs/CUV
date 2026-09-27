@@ -16,29 +16,34 @@
 
     <!-- Araskova Pure Ember Gradients -->
     <linearGradient id="cArcGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D84315" />
-      <stop offset="40%" stop-color="#F4511E" />
-      <stop offset="70%" stop-color="#FF6D00" />
-      <stop offset="100%" stop-color="#FF9100" />
+      <stop offset="0%" stop-color="#E64A19" />
+      <stop offset="30%" stop-color="#FF5722" />
+      <stop offset="65%" stop-color="#FF6D00" />
+      <stop offset="100%" stop-color="#FFA000" />
     </linearGradient>
 
-    <linearGradient id="cInnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF9E80" />
-      <stop offset="40%" stop-color="#FF7043" />
-      <stop offset="100%" stop-color="#BF360C" />
-    </linearGradient>
-
-    <linearGradient id="bladeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+    <linearGradient id="boltGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#FF3D00" />
       <stop offset="45%" stop-color="#FF6D00" />
-      <stop offset="85%" stop-color="#FFB300" />
+      <stop offset="80%" stop-color="#FFB300" />
       <stop offset="100%" stop-color="#FFF8E1" />
+    </linearGradient>
+
+    <linearGradient id="specularRidge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9" />
+      <stop offset="35%" stop-color="#FFE082" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#FF6D00" stop-opacity="0" />
     </linearGradient>
 
     <!-- Precision Drop Shadows -->
     <filter id="chiseledShadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000000" flood-opacity="0.8" />
       <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#FF6D00" flood-opacity="0.25" />
+    </filter>
+
+    <filter id="boltGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
 
@@ -59,38 +64,25 @@
     <line x1="1160" y1="320" x2="1160" y2="300" />
   </g>
 
-  <!-- Left: The Geometric CUV Emblem (Scale 0.52) -->
-  <g transform="translate(190, 180) scale(0.55)" filter="url(#chiseledShadow)">
-    <!-- Architectural Chamfered 'C' -->
-    <path d="M 0 -170 
-             L 160 -170 
-             L 160 -95 
-             L 30 -95 
-             L -50 -15 
-             L -50 85 
-             L 30 165 
-             L 160 165 
-             L 160 240 
-             L 0 240 
-             L -125 115 
-             L -125 -45 
+  <!-- Left: The Distinctive CUV Emblem (Scaled) -->
+  <g transform="translate(190, 180) scale(0.65)" filter="url(#chiseledShadow)">
+    <path d="M 149 -104 
+             A 172 172 0 1 0 149 104 
+             L 92 56 
+             A 110 110 0 1 1 92 -56 
              Z" 
           fill="url(#cArcGrad)" />
 
-    <!-- 3D Chiseled Depth Facets -->
-    <path d="M 0 -170 L 30 -95 L -50 -15 L -125 -45 Z" fill="url(#cInnerGrad)" opacity="0.35" />
-    <path d="M -50 85 L 30 165 L 0 240 L -125 115 Z" fill="#5D1500" opacity="0.45" />
+    <polygon points="-81,84 29,-31 -21,-31 179,-161 89,-41 139,-41" 
+             fill="url(#boltGrad)" 
+             filter="url(#boltGlow)" />
 
-    <!-- Velocity Blade -->
-    <polygon points="-80,180 65,25 15,25 195,-185 215,-165 105,-10 155,-10" 
-             fill="url(#bladeGrad)" />
+    <polygon points="-21,-31 179,-161 154,-136 59,-31" 
+             fill="url(#specularRidge)" />
 
-    <!-- C++ Accents -->
-    <g fill="#FFAB40" opacity="0.9">
-      <rect x="200" y="-55" width="8" height="24" rx="2" />
-      <rect x="192" y="-47" width="24" height="8" rx="2" />
-      <rect x="200" y="115" width="8" height="24" rx="2" />
-      <rect x="192" y="123" width="24" height="8" rx="2" />
+    <g fill="#FFA726" opacity="0.95">
+      <polygon points="162,-28 170,-28 170,-36 178,-36 178,-28 186,-28 186,-20 178,-20 178,-12 170,-12 170,-20 162,-20" />
+      <polygon points="162,28 170,28 170,20 178,20 178,28 186,28 186,36 178,36 178,44 170,44 170,36 162,36" />
     </g>
   </g>
 
