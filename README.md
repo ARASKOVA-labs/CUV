@@ -76,8 +76,6 @@ Verify your installation:
 cuv info
 ```
 
-*(For enterprise CI/CD integration and deployment instructions, see [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) and [PITCH_DECK.md](PITCH_DECK.md).)*
-
 ---
 
 ## 🏁 60-Second Quickstart
@@ -209,9 +207,6 @@ Adding a C++ library to the CUV registry takes just 3 lines of Rust in [`src/pac
 
 - **Good First Issues**: Check out issues labeled [`good-first-issue`](https://github.com/ARASKOVA-labs/CUV/labels/good-first-issue).
 - **Request a Library**: Open a [Library Request](https://github.com/ARASKOVA-labs/CUV/issues/new?template=library_request.yml).
-- **Business Model & Strategy**: Read [`BUSINESS_MODEL.md`](BUSINESS_MODEL.md) for our commercialization and growth plan.
-- **Architectural Specification**: Read [`SPECIFICATION.md`](SPECIFICATION.md).
-- **Roadmap & Phases**: Read [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md).
 
 ---
 

@@ -42,3 +42,12 @@ Thumbs.db
 .idea/
 *.sublime-project
 *.sublime-workspace
+
+# Private internal documents & business plans
+BUSINESS_MODEL.md
+PITCH_DECK.md
+COMMUNITY_LAUNCH_AND_PROMPTS.md
+DEPLOYMENT_GUIDE.md
+DEVELOPMENT_PLAN.md
+SPECIFICATION.md
+
