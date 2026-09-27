@@ -82,7 +82,13 @@ impl CompilerDriver {
                     target_dir.join(format!("lib{}.so", name))
                 }
             }
-            _ => target_dir.join(name),
+            _ => {
+                if cfg!(target_os = "windows") {
+                    target_dir.join(format!("{}.exe", name))
+                } else {
+                    target_dir.join(name)
+                }
+            }
         }
     }
 

@@ -48,7 +48,14 @@ fn test_executable_build_and_incremental_cache() {
     assert!(stdout.contains("Built") || stdout.contains("Compiling"));
 
     let proj_name = temp_dir.file_name().unwrap().to_str().unwrap();
-    let bin_path = temp_dir.join("target").join("debug").join(proj_name);
+    let bin_path = if cfg!(target_os = "windows") {
+        temp_dir
+            .join("target")
+            .join("debug")
+            .join(format!("{}.exe", proj_name))
+    } else {
+        temp_dir.join("target").join("debug").join(proj_name)
+    };
     assert!(bin_path.exists());
 
     let run_output = Command::new(&bin_path).output().expect("run binary");

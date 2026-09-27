@@ -95,7 +95,11 @@ impl TestRunner {
         for test_src in &test_files {
             let test_start = Instant::now();
             let test_name = test_src.file_stem().unwrap().to_string_lossy();
-            let bin_path = target_test_dir.join(format!("test_{}", test_name));
+            let bin_path = if cfg!(target_os = "windows") {
+                target_test_dir.join(format!("test_{}.exe", test_name))
+            } else {
+                target_test_dir.join(format!("test_{}", test_name))
+            };
 
             let mut cmd = Command::new(&self.toolchain.compiler_path);
             cmd.arg(format!("-std={}", self.manifest.project.standard));

@@ -11,20 +11,27 @@ pub fn cuv_lib_link_args(project_dir: &Path) -> Vec<String> {
     if cuv_lib.is_dir() {
         args.push(format!("-L{}", cuv_lib.display()));
         if let Ok(entries) = std::fs::read_dir(&cuv_lib) {
-            let mut libs = Vec::new();
+            let mut static_libs = Vec::new();
+            let mut dynamic_libs = Vec::new();
             for entry in entries.flatten() {
                 let path = entry.path();
                 if path.is_file() {
                     let ext = path.extension().and_then(|s| s.to_str()).unwrap_or("");
-                    if ext == "a" || ext == "dylib" || ext == "so" {
+                    if ext == "a" || ext == "lib" {
+                        static_libs.push(path.display().to_string());
+                    } else if ext == "dylib" || ext == "so" || ext == "dll" {
                         let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
                         let lib_name = stem.strip_prefix("lib").unwrap_or(stem);
-                        libs.push(lib_name.to_string());
+                        dynamic_libs.push(lib_name.to_string());
                     }
                 }
             }
-            libs.sort();
-            for lib in libs {
+            static_libs.sort();
+            dynamic_libs.sort();
+            for lib_path in static_libs {
+                args.push(lib_path);
+            }
+            for lib in dynamic_libs {
                 args.push(format!("-l{}", lib));
             }
         }
