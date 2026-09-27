@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="100%">
+  <defs>
+    <!-- Background Canvas -->
+    <linearGradient id="bannerBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0F14" />
+      <stop offset="50%" stop-color="#08090C" />
+      <stop offset="100%" stop-color="#040507" />
+    </linearGradient>
+
+    <!-- Warm Ambient Glow Behind Emblem -->
+    <radialGradient id="bannerGlow" cx="20%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#FF5500" stop-opacity="0.22" />
+      <stop offset="50%" stop-color="#FF6D00" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#08090C" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Araskova Pure Ember Gradients -->
+    <linearGradient id="cArcGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D84315" />
+      <stop offset="40%" stop-color="#F4511E" />
+      <stop offset="70%" stop-color="#FF6D00" />
+      <stop offset="100%" stop-color="#FF9100" />
+    </linearGradient>
+
+    <linearGradient id="cInnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9E80" />
+      <stop offset="40%" stop-color="#FF7043" />
+      <stop offset="100%" stop-color="#BF360C" />
+    </linearGradient>
+
+    <linearGradient id="bladeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF3D00" />
+      <stop offset="45%" stop-color="#FF6D00" />
+      <stop offset="85%" stop-color="#FFB300" />
+      <stop offset="100%" stop-color="#FFF8E1" />
+    </linearGradient>
+
+    <!-- Precision Drop Shadows -->
+    <filter id="chiseledShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000000" flood-opacity="0.8" />
+      <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#FF6D00" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Outer Rounded Banner -->
+  <rect width="1200" height="360" rx="32" fill="url(#bannerBg)" />
+  <rect width="1198" height="358" x="1" y="1" rx="31" fill="none" stroke="#222530" stroke-width="1.5" stroke-opacity="0.75" />
+  <rect width="1200" height="360" rx="32" fill="url(#bannerGlow)" />
+
+  <!-- Engineering Grid Marks -->
+  <g stroke="#2C303E" stroke-width="1" stroke-opacity="0.5">
+    <line x1="40" y1="40" x2="60" y2="40" />
+    <line x1="40" y1="40" x2="40" y2="60" />
+    <line x1="1160" y1="40" x2="1140" y2="40" />
+    <line x1="1160" y1="40" x2="1160" y2="60" />
+    <line x1="40" y1="320" x2="60" y2="320" />
+    <line x1="40" y1="320" x2="40" y2="300" />
+    <line x1="1160" y1="320" x2="1140" y2="320" />
+    <line x1="1160" y1="320" x2="1160" y2="300" />
+  </g>
+
+  <!-- Left: The Geometric CUV Emblem (Scale 0.52) -->
+  <g transform="translate(190, 180) scale(0.55)" filter="url(#chiseledShadow)">
+    <!-- Architectural Chamfered 'C' -->
+    <path d="M 0 -170 
+             L 160 -170 
+             L 160 -95 
+             L 30 -95 
+             L -50 -15 
+             L -50 85 
+             L 30 165 
+             L 160 165 
+             L 160 240 
+             L 0 240 
+             L -125 115 
+             L -125 -45 
+             Z" 
+          fill="url(#cArcGrad)" />
+
+    <!-- 3D Chiseled Depth Facets -->
+    <path d="M 0 -170 L 30 -95 L -50 -15 L -125 -45 Z" fill="url(#cInnerGrad)" opacity="0.35" />
+    <path d="M -50 85 L 30 165 L 0 240 L -125 115 Z" fill="#5D1500" opacity="0.45" />
+
+    <!-- Velocity Blade -->
+    <polygon points="-80,180 65,25 15,25 195,-185 215,-165 105,-10 155,-10" 
+             fill="url(#bladeGrad)" />
+
+    <!-- C++ Accents -->
+    <g fill="#FFAB40" opacity="0.9">
+      <rect x="200" y="-55" width="8" height="24" rx="2" />
+      <rect x="192" y="-47" width="24" height="8" rx="2" />
+      <rect x="200" y="115" width="8" height="24" rx="2" />
+      <rect x="192" y="123" width="24" height="8" rx="2" />
+    </g>
+  </g>
+
+  <!-- Right: Title & Systems Typography -->
+  <g transform="translate(370, 0)">
+    
+    <!-- Top Pill: Araskova Systems Open Source -->
+    <rect x="0" y="55" width="180" height="26" rx="6" fill="#141721" stroke="#2A2E3D" stroke-width="1" />
+    <circle cx="16" cy="68" r="4" fill="#FF6D00" />
+    <text x="28" y="72" font-family="-apple-system, BlinkMacSystemFont, 'SF Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#FFA726">ARASKOVA LABS</text>
+
+    <!-- Main Wordmark -->
+    <text x="0" y="150" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif" font-weight="900" font-size="72" letter-spacing="4" fill="#FFFFFF">
+      CUV<tspan fill="#FF6D00">.</tspan>
+    </text>
+
+    <!-- Subtitle / Tagline -->
+    <text x="220" y="142" font-family="-apple-system, BlinkMacSystemFont, 'SF Mono', monospace" font-size="14" font-weight="700" letter-spacing="4" fill="#FF7A00">
+      C-ULTRA-VELOCITY
+    </text>
+
+    <!-- Description -->
+    <text x="0" y="185" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', sans-serif" font-size="16" font-weight="400" fill="#9BA1B5">
+      The ultra-fast, zero-dependency package manager and build driver for C and C++.
+    </text>
+
+    <!-- Feature Chips (Modern Linear / Vercel style) -->
+    <g transform="translate(0, 225)">
+      <!-- Chip 1 -->
+      <rect x="0" y="0" width="150" height="34" rx="8" fill="#12141C" stroke="#252836" stroke-width="1" />
+      <text x="75" y="21" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Mono', monospace" font-size="11" font-weight="600" fill="#E2E8F0">⚡ &lt; 5ms BOOT</text>
+
+      <!-- Chip 2 -->
+      <rect x="162" y="0" width="165" height="34" rx="8" fill="#12141C" stroke="#252836" stroke-width="1" />
+      <text x="244" y="21" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Mono', monospace" font-size="11" font-weight="600" fill="#E2E8F0">📦 &lt; 100ms HEADERS</text>
+
+      <!-- Chip 3 -->
+      <rect x="339" y="0" width="170" height="34" rx="8" fill="#12141C" stroke="#252836" stroke-width="1" />
+      <text x="424" y="21" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Mono', monospace" font-size="11" font-weight="600" fill="#E2E8F0">🔗 ABI OBJECT CACHE</text>
+
+      <!-- Chip 4 -->
+      <rect x="521" y="0" width="165" height="34" rx="8" fill="#12141C" stroke="#252836" stroke-width="1" />
+      <text x="603" y="21" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Mono', monospace" font-size="11" font-weight="600" fill="#E2E8F0">🛠️ ZERO CMAKE REQ</text>
+    </g>
+  </g>
+</svg>

@@ -1,78 +1,157 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
   <defs>
-    <linearGradient id="cyanPurpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00F5FF" />
-      <stop offset="45%" stop-color="#38BDF8" />
-      <stop offset="75%" stop-color="#818CF8" />
-      <stop offset="100%" stop-color="#C084FC" />
-    </linearGradient>
-
-    <linearGradient id="lightningGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00F5FF" />
-      <stop offset="40%" stop-color="#38BDF8" />
-      <stop offset="70%" stop-color="#A855F7" />
-      <stop offset="100%" stop-color="#D946EF" />
-    </linearGradient>
-
+    <!-- Background Gradient -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19" />
-      <stop offset="50%" stop-color="#070A10" />
-      <stop offset="100%" stop-color="#030712" />
+      <stop offset="0%" stop-color="#0F1015" />
+      <stop offset="50%" stop-color="#090A0D" />
+      <stop offset="100%" stop-color="#050507" />
     </linearGradient>
 
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="18" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    <!-- Deep Ambient Warmth -->
+    <radialGradient id="ambientGlow" cx="48%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#FF5500" stop-opacity="0.16" />
+      <stop offset="60%" stop-color="#FF6B00" stop-opacity="0.04" />
+      <stop offset="100%" stop-color="#090A0D" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Araskova Pure Ember Gradients -->
+    <linearGradient id="cArcGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D84315" />
+      <stop offset="40%" stop-color="#F4511E" />
+      <stop offset="70%" stop-color="#FF6D00" />
+      <stop offset="100%" stop-color="#FF9100" />
+    </linearGradient>
+
+    <linearGradient id="cInnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9E80" />
+      <stop offset="40%" stop-color="#FF7043" />
+      <stop offset="100%" stop-color="#BF360C" />
+    </linearGradient>
+
+    <!-- Supersonic Lightning Blade -->
+    <linearGradient id="bladeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF3D00" />
+      <stop offset="45%" stop-color="#FF6D00" />
+      <stop offset="85%" stop-color="#FFB300" />
+      <stop offset="100%" stop-color="#FFF8E1" />
+    </linearGradient>
+
+    <!-- Specular Highlight Line -->
+    <linearGradient id="bladeFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.75" />
+      <stop offset="35%" stop-color="#FFE082" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#FF6D00" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Clean Precision Shadow -->
+    <filter id="chiseledShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="20" flood-color="#000000" flood-opacity="0.8" />
+      <feDropShadow dx="0" dy="0" stdDeviation="28" flood-color="#FF6D00" flood-opacity="0.22" />
     </filter>
 
-    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="subtleGlow" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur stdDeviation="8" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
 
-  <rect width="800" height="800" rx="160" fill="url(#bgGrad)" />
+  <!-- Enclosure Card -->
+  <rect width="800" height="800" rx="140" fill="url(#bgGrad)" />
+  <rect width="798" height="798" x="1" y="1" rx="139" fill="none" stroke="#21242E" stroke-width="1.5" stroke-opacity="0.7" />
+  <rect width="800" height="800" rx="140" fill="url(#ambientGlow)" />
 
-  <circle cx="400" cy="340" r="180" fill="none" stroke="#38BDF8" stroke-width="1.5" opacity="0.15" filter="url(#glow)" />
-  <circle cx="400" cy="340" r="140" fill="none" stroke="#A855F7" stroke-width="1" opacity="0.12" />
-
-  <g transform="translate(400, 330)">
-    <path d="M 40 -120 
-             A 140 140 0 1 0 100 80 
-             L 50 40 
-             A 90 90 0 1 1 20 -70 
-             Z" 
-          fill="url(#cyanPurpleGrad)" 
-          filter="url(#glow)" 
-          opacity="0.9" />
-
-    <polygon points="-120,120 -20,10 -35,5 30,-75 140,-140 70,-30 85,-35 -10,80" 
-             fill="url(#lightningGrad)" 
-             filter="url(#subtleGlow)" />
-
-    <polygon points="-100,105 -20,10 -30,10 25,-60 110,-115 70,-40 75,-40 0,60" 
-             fill="#FFFFFF" 
-             opacity="0.35" />
+  <!-- Industrial Systems Coordinate Reticle -->
+  <g stroke="#2C303E" stroke-width="1" stroke-opacity="0.6">
+    <line x1="80" y1="80" x2="100" y2="80" />
+    <line x1="80" y1="80" x2="80" y2="100" />
+    <line x1="720" y1="80" x2="700" y2="80" />
+    <line x1="720" y1="80" x2="720" y2="100" />
+    <line x1="80" y1="720" x2="100" y2="720" />
+    <line x1="80" y1="720" x2="80" y2="700" />
+    <line x1="720" y1="720" x2="700" y2="720" />
+    <line x1="720" y1="720" x2="720" y2="700" />
+    
+    <!-- Micro Crosshairs -->
+    <path d="M 400 60 L 400 70 M 395 65 L 405 65" />
+    <path d="M 400 730 L 400 740 M 395 735 L 405 735" />
   </g>
 
-  <text x="400" y="600" 
+  <!-- Central Precision Emblem -->
+  <g filter="url(#chiseledShadow)">
+
+    <!-- The Architectural 45-Degree Chamfered 'C' Monogram -->
+    <path d="M 330 160 
+             L 490 160 
+             L 490 235 
+             L 360 235 
+             L 280 315 
+             L 280 415 
+             L 360 495 
+             L 490 495 
+             L 490 570 
+             L 330 570 
+             L 205 445 
+             L 205 285 
+             Z" 
+          fill="url(#cArcGrad)" />
+
+    <!-- Inner Shadow Cutout Facet for 3D Chiseled Depth -->
+    <path d="M 330 160 
+             L 360 235 
+             L 280 315 
+             L 205 285 
+             Z" 
+          fill="url(#cInnerGrad)" 
+          opacity="0.35" />
+
+    <path d="M 280 415 
+             L 360 495 
+             L 330 570 
+             L 205 445 
+             Z" 
+          fill="#5D1500" 
+          opacity="0.4" />
+
+    <!-- The Supersonic Velocity Blade (Mach Needle / Lightning Core) -->
+    <polygon points="250,510 395,355 345,355 525,145 545,165 435,320 485,320" 
+             fill="url(#bladeGrad)" 
+             filter="url(#subtleGlow)" />
+
+    <!-- Specular Light Reflection on the Upper Blade Ridge -->
+    <polygon points="345,355 525,145 540,155 450,290" 
+             fill="url(#bladeFacet)" />
+
+    <!-- C++ Dual Accent Pluses (+) -->
+    <g fill="#FFAB40" opacity="0.9">
+      <!-- Upper Plus -->
+      <rect x="530" y="275" width="8" height="24" rx="2" />
+      <rect x="522" y="283" width="24" height="8" rx="2" />
+
+      <!-- Lower Plus -->
+      <rect x="530" y="445" width="8" height="24" rx="2" />
+      <rect x="522" y="453" width="24" height="8" rx="2" />
+    </g>
+  </g>
+
+  <!-- Typography: Modern Geometric Wordmark -->
+  <text x="400" y="660" 
         text-anchor="middle" 
-        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" 
+        font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, sans-serif" 
         font-weight="900" 
-        font-size="88" 
-        letter-spacing="12" 
+        font-size="64" 
+        letter-spacing="16" 
         fill="#FFFFFF">
     CUV
   </text>
 
-  <text x="400" y="650" 
+  <!-- Araskova Engineering Subtitle -->
+  <text x="400" y="700" 
         text-anchor="middle" 
-        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" 
-        font-weight="700" 
-        font-size="20" 
-        letter-spacing="8" 
-        fill="#38BDF8" 
-        opacity="0.9">
+        font-family="-apple-system, BlinkMacSystemFont, 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace" 
+        font-weight="600" 
+        font-size="14" 
+        letter-spacing="6" 
+        fill="#FF6D00">
     C-ULTRA-VELOCITY
   </text>
 </svg>
