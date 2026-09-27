@@ -1,0 +1,45 @@
+"area:compiler":
+  - changed-files:
+      - any-glob-to-any-file: "src/compiler/**"
+
+"area:package-manager":
+  - changed-files:
+      - any-glob-to-any-file: "src/package/**"
+
+"pkg:registry":
+  - changed-files:
+      - any-glob-to-any-file: "src/package/registry.rs"
+
+"area:cache":
+  - changed-files:
+      - any-glob-to-any-file: "src/commands/cache.rs"
+
+"area:cloud":
+  - changed-files:
+      - any-glob-to-any-file: "src/cloud/**"
+      - any-glob-to-any-file: "src/commands/cloud.rs"
+
+"area:ui":
+  - changed-files:
+      - any-glob-to-any-file: "src/ui/**"
+
+"area:interop":
+  - changed-files:
+      - any-glob-to-any-file: "src/interop/**"
+
+"area:ci":
+  - changed-files:
+      - any-glob-to-any-file: ".github/**"
+
+"area:tests":
+  - changed-files:
+      - any-glob-to-any-file: "tests/**"
+
+"area:documentation":
+  - changed-files:
+      - any-glob-to-any-file: "*.md"
+
+"area:distribution":
+  - changed-files:
+      - any-glob-to-any-file: "scripts/**"
+      - any-glob-to-any-file: "Formula/**"

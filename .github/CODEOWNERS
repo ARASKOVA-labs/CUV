@@ -1,0 +1,8 @@
+* @ARASKOVA-labs
+
+/.github/ @ARASKOVA-labs
+/Cargo.toml @ARASKOVA-labs
+/Cargo.lock @ARASKOVA-labs
+/src/compiler/ @ARASKOVA-labs
+/src/cloud/ @ARASKOVA-labs
+/src/package/ @ARASKOVA-labs

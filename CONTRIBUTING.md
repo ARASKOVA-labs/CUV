@@ -80,21 +80,15 @@ CUV is organized into clean, domain-specific modules:
 
 ---
 
-## 🛠️ Pull Request Guidelines
+## 🛠️ Pull Request Guidelines & CI Protection
 
-1. **Keep it focused**: Each PR should address a single feature, bug fix, or package addition.
-2. **Add tests**: If adding new functionality, add a corresponding test in [`tests/`](tests/).
-3. **Format & Lint**:
-   ```bash
-   cargo fmt --check
-   cargo clippy --all-targets -- -D warnings
-   cargo test
-   ```
-4. **Descriptive PR Title**: Use conventional commits style:
-   - `feat(compiler): add support for precompiled headers`
-   - `fix(resolver): handle release tags without leading v`
-   - `pkg: add raylib to registry`
-   - `docs: update quickstart guide`
+All pull requests undergo strict automated validation and security screening:
+
+1. **Automated CI Matrix**: Every PR must pass formatting (`cargo fmt --check`), strict linting (`cargo clippy --all-targets -- -D warnings`), multi-target builds, and all tests across macOS, Linux, and Windows.
+2. **Security & Supply Chain Auditing**: Every PR is automatically screened by `cargo-audit` (known CVEs), `gitleaks` (secret/token detection), and dependency review.
+3. **Semantic PR Titles**: Titles must adhere to Conventional Commits (e.g. `feat:`, `fix:`, `pkg:`, `docs:`, `chore:`, `perf:`).
+4. **Code Quality**: Clean idiomatic Rust, zero clippy warnings, and no unnecessary comments.
+5. **Code Owner Sign-off**: Pull requests modifying core compiler, package manager, or CI workflows require maintainer review from `@ARASKOVA-labs`.
 
 ---
 
