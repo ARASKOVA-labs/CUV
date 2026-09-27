@@ -16,7 +16,7 @@ jobs:
     name: Security Vulnerability Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Rust Security Audit
         uses: actions-rust-lang/audit@v1
@@ -25,7 +25,7 @@ jobs:
     name: Secret & Token Leak Detection
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
