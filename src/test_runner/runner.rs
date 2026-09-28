@@ -132,6 +132,16 @@ impl TestRunner {
             for arg in crate::compiler::linker::cuv_lib_link_args(&self.project_dir) {
                 cmd.arg(arg);
             }
+            let mut defines = target_cfg.map(|c| c.defines.clone()).unwrap_or_default();
+            if self.manifest.dependencies.contains_key("fmt")
+                && !defines.iter().any(|d| d.starts_with("FMT_HEADER_ONLY"))
+            {
+                defines.push("FMT_HEADER_ONLY=1".to_string());
+            }
+            for def in &defines {
+                cmd.arg(format!("-D{}", def));
+            }
+
             if let Some(cfg) = target_cfg {
                 if cfg!(target_os = "macos") {
                     for fw in &cfg.frameworks {

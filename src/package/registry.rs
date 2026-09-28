@@ -57,7 +57,7 @@ pub fn get_known_registry() -> HashMap<&'static str, KnownPackage> {
             name: "fmt",
             repo: "fmtlib/fmt",
             include_subpath: "include",
-            default_tag: "10.2.1",
+            default_tag: "11.1.4",
             description: "Modern formatting library for C++",
             homepage: "https://fmt.dev",
             license: "MIT",

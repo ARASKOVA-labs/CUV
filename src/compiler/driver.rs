@@ -97,6 +97,26 @@ impl CompilerDriver {
         let include_dir = self.project_dir.join("include");
         let cuv_include = self.project_dir.join(".cuv").join("include");
 
+        let target_cfg = if cfg!(target_os = "macos") {
+            self.manifest
+                .target
+                .get("macos")
+                .or_else(|| self.manifest.target.get("darwin"))
+        } else if cfg!(target_os = "linux") {
+            self.manifest.target.get("linux")
+        } else if cfg!(target_os = "windows") {
+            self.manifest.target.get("windows")
+        } else {
+            None
+        };
+
+        let mut defines = target_cfg.map(|t| t.defines.clone()).unwrap_or_default();
+        if self.manifest.dependencies.contains_key("fmt")
+            && !defines.iter().any(|d| d.starts_with("FMT_HEADER_ONLY"))
+        {
+            defines.push("FMT_HEADER_ONLY=1".to_string());
+        }
+
         for src in sources {
             let (obj_path, _) = self.get_object_and_dep_path(src, target_mode);
             let compiler = self.toolchain.compiler_for_file(src);
@@ -117,6 +137,10 @@ impl CompilerDriver {
                 args.push("-O0".to_string());
                 args.push("-g".to_string());
                 args.push("-DDEBUG".to_string());
+            }
+
+            for def in &defines {
+                args.push(format!("-D{}", def));
             }
 
             if include_dir.exists() {
@@ -179,6 +203,13 @@ impl CompilerDriver {
             None
         };
 
+        let mut defines = target_cfg.map(|t| t.defines.clone()).unwrap_or_default();
+        if self.manifest.dependencies.contains_key("fmt")
+            && !defines.iter().any(|d| d.starts_with("FMT_HEADER_ONLY"))
+        {
+            defines.push("FMT_HEADER_ONLY=1".to_string());
+        }
+
         let mut tasks_to_run = Vec::new();
         let mut all_objects = Vec::new();
         let mut local_cached = 0;
@@ -228,7 +259,7 @@ impl CompilerDriver {
                 let inc_dir = include_dir.clone();
                 let cuv_inc = cuv_include.clone();
                 let search_paths = search_paths.clone();
-                let defines = target_cfg.map(|t| t.defines.clone()).unwrap_or_default();
+                let defines = defines.clone();
                 let flags = target_cfg.map(|t| t.flags.clone()).unwrap_or_default();
                 let verbose = options.verbose;
                 let proj_dir = self.project_dir.clone();
