@@ -27,12 +27,27 @@ New-Item -ItemType Directory -Path $tmpDir -Force | Out-Null
 try {
     Write-Host "Downloading CUV archive from $url..." -ForegroundColor Yellow
     $archivePath = Join-Path $tmpDir "cuv.tar.gz"
-    Invoke-WebRequest -Uri $url -OutFile $archivePath -UseBasicParsing
+    $downloadSuccess = $false
+    try {
+        Invoke-WebRequest -Uri $url -OutFile $archivePath -UseBasicParsing -ErrorAction Stop
+        $downloadSuccess = $true
+    } catch {
+        Write-Host "Prebuilt release archive not yet available for $target." -ForegroundColor Yellow
+    }
 
-    tar -xzf $archivePath -C $tmpDir
-    Copy-Item (Join-Path $tmpDir "cuv.exe") (Join-Path $installDir "cuv.exe") -Force
-
-    Write-Host "✔ Successfully installed cuv.exe to $installDir" -ForegroundColor Green
+    if ($downloadSuccess) {
+        tar -xzf $archivePath -C $tmpDir
+        Copy-Item (Join-Path $tmpDir "cuv.exe") (Join-Path $installDir "cuv.exe") -Force
+        Write-Host "✔ Successfully installed cuv.exe to $installDir" -ForegroundColor Green
+    } elseif (Get-Command cargo -ErrorAction SilentlyContinue) {
+        Write-Host "Building latest CUV directly from GitHub via Cargo..." -ForegroundColor Cyan
+        cargo install --git "https://github.com/$repo.git" --root (Join-Path $HOME ".cuv")
+        Copy-Item (Join-Path $HOME ".cuv\bin\cuv.exe") (Join-Path $installDir "cuv.exe") -Force
+        Write-Host "✔ Successfully built and installed cuv.exe via Cargo!" -ForegroundColor Green
+    } else {
+        Write-Error "Prebuilt release not yet published and Cargo was not found. Please install Rust from https://rustup.rs"
+        exit 1
+    }
 
     # Add to User PATH if not present
     $currentPath = [Environment]::GetEnvironmentVariable("Path", "User")

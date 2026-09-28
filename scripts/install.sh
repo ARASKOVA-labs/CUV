@@ -88,20 +88,36 @@ main() {
     trap cleanup EXIT
 
     echo "${YELLOW}Downloading CUV release archive...${RESET}"
+    DOWNLOAD_SUCCESS=0
     if command -v curl >/dev/null 2>&1; then
-        curl -fSL "$URL" -o "$TMP_DIR/cuv.tar.gz"
+        if curl -fSL "$URL" -o "$TMP_DIR/cuv.tar.gz" 2>/dev/null; then
+            DOWNLOAD_SUCCESS=1
+        fi
     elif command -v wget >/dev/null 2>&1; then
-        wget -qO "$TMP_DIR/cuv.tar.gz" "$URL"
-    else
-        echo "Error: curl or wget is required to install CUV."
-        exit 1
+        if wget -qO "$TMP_DIR/cuv.tar.gz" "$URL" 2>/dev/null; then
+            DOWNLOAD_SUCCESS=1
+        fi
     fi
 
-    tar -xzf "$TMP_DIR/cuv.tar.gz" -C "$TMP_DIR"
-    cp "$TMP_DIR/cuv" "$INSTALL_DIR/cuv"
-    chmod +x "$INSTALL_DIR/cuv"
-
-    echo "${GREEN}${BOLD}✔ Successfully installed CUV!${RESET}"
+    if [ "$DOWNLOAD_SUCCESS" -eq 1 ]; then
+        tar -xzf "$TMP_DIR/cuv.tar.gz" -C "$TMP_DIR"
+        cp "$TMP_DIR/cuv" "$INSTALL_DIR/cuv"
+        chmod +x "$INSTALL_DIR/cuv"
+        echo "${GREEN}${BOLD}✔ Successfully installed CUV from release binary!${RESET}"
+    else
+        echo "${YELLOW}Prebuilt release archive not yet found at ${URL}${RESET}"
+        if command -v cargo >/dev/null 2>&1; then
+            echo "${CYAN}Building latest CUV directly from GitHub via Cargo...${RESET}"
+            cargo install --git "https://github.com/${REPO}.git" --root "${HOME}/.cuv"
+            cp "${HOME}/.cuv/bin/cuv" "$INSTALL_DIR/cuv"
+            chmod +x "$INSTALL_DIR/cuv"
+            echo "${GREEN}${BOLD}✔ Successfully built and installed CUV via Cargo!${RESET}"
+        else
+            echo "Error: Prebuilt release archive not yet published."
+            echo "Please install Rust (https://rustup.rs) or download a release from: https://github.com/${REPO}/releases"
+            exit 1
+        fi
+    fi
 
     # Configure Shell PATH
     SHELL_PROFILE=""
