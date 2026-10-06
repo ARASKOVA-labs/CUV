@@ -69,7 +69,13 @@ fn test_executable_build_and_incremental_cache() {
         .expect("cuv build again");
     assert!(output2.status.success());
     let stdout2 = String::from_utf8_lossy(&output2.stdout);
-    assert!(stdout2.contains("up-to-date"));
+    let stderr2 = String::from_utf8_lossy(&output2.stderr);
+    assert!(
+        stdout2.contains("up-to-date") || stdout2.contains("(0 recompiled"),
+        "Expected an incremental/no-op build on second run.\nstdout:\n{}\nstderr:\n{}",
+        stdout2,
+        stderr2
+    );
 
     let _ = fs::remove_dir_all(&temp_dir);
 }
